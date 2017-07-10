@@ -955,6 +955,7 @@ handle_notifications(void)
 		remove(notify_name);
 		
 		printf("rc notification: %s\n", entry->d_name);
+		logmessage("rc", "rc notification: %s\n", entry->d_name);
 		
 		/* Take the appropriate action. */
 		if (!strcmp(entry->d_name, RCN_RESTART_REBOOT))
@@ -1166,6 +1167,7 @@ handle_notifications(void)
 			restart_xunlei();
 		}
 #endif
+#endif // USE_STORAGE
 #if defined(APP_KMS)
 		else if (strcmp(entry->d_name, RCN_RESTART_KMS) == 0)
 		{
@@ -1182,7 +1184,6 @@ handle_notifications(void)
 		{
 			restart_dnsq();
 		}
-#endif
 		else if (strcmp(entry->d_name, RCN_RESTART_HTTPD) == 0)
 		{
 			restart_httpd();

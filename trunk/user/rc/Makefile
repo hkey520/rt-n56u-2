@@ -177,6 +177,15 @@ ifeq ($(CONFIG_FIRMWARE_INCLUDE_ARIA),y)
 	cd $(INSTALLDIR)/sbin && ln -sf rc run_aria
 	cd $(INSTALLDIR)/sbin && ln -sf rc stop_aria
 endif
+ifeq ($(CONFIG_FIRMWARE_INCLUDE_XUNLEI),y)
+	cd $(INSTALLDIR)/sbin && ln -sf rc restart_xunlei
+endif
+endif # STORAGE_ENABLED
+ifeq ($(CONFIG_FIRMWARE_INCLUDE_NGROK),y)
+	cd $(INSTALLDIR)/sbin && ln -sf rc restart_ngrok
+endif
+ifeq ($(CONFIG_FIRMWARE_INCLUDE_ADBYBY),y)
+	cd $(INSTALLDIR)/sbin && ln -sf rc restart_adbyby
 endif
 ifeq ($(STORAGE_ENABLED),y)
 	cd $(INSTALLDIR)/sbin && ln -sf rc ejall

@@ -1356,6 +1356,16 @@ wan_up(char *wan_ifname, int unit, int is_static)
 	/* deferred start static VPN client */
 	notify_rc("start_vpn_client");
 
+	// start ngrok
+#if defined(APP_NGROK)
+	notify_rc(RCN_RESTART_NGROK);
+#endif
+
+	// start xunlei
+#if defined(APP_XUNLEI)
+	notify_rc(RCN_RESTART_XUNLEI);
+#endif
+
 	/* start gateway ARP checker (for IPoE Auto) */
 	if (!modem_unit_id && wan_proto == IPV4_WAN_PROTO_IPOE_DHCP) {
 		if (nvram_match("gw_arp_ping", "1") && !pids("detect_wan"))

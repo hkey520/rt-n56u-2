@@ -292,6 +292,14 @@ init_bridge(int is_ap_mode)
 
 	nvram_set_int_temp("reload_svc_wl", 0);
 	nvram_set_int_temp("reload_svc_rt", 0);
+
+#if defined(APP_NGROK)
+        if (nvram_get_int("ngrok_enable") == 1)
+        {
+                notify_rc(RCN_RESTART_NGROK);
+        }
+#endif
+
 }
 
 void

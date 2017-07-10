@@ -1,5 +1,6 @@
 /*
  ******Last update by bkye*********************
+ ******Last update by HuangYingNing************
  **********************************************
  */
 
@@ -1127,43 +1128,28 @@ void restart_aria(void)
 		restart_firewall();
 }
 #endif
-/*迅雷、ADBYBY、kms*/
+/*迅雷、ADBYBY*/
 void restart_xunlei(void)
 {
-	if (count_stor_mountpoint())
-		eval("/usr/bin/xunlei.sh");
+//	if (count_stor_mountpoint())
+//		eval("/usr/bin/xunlei.Sh");
+	doSystem("/usr/bin/xunlei.Sh");
 }
 
 void restart_adbyby(void)
 {
-	if (count_stor_mountpoint())
-		eval("/usr/bin/adbyby.sh");
+//	if (count_stor_mountpoint())
+//		eval("/usr/bin/adbyby.sh");
+	doSystem("/usr/bin/adbyby.sh");
 }
 
 void restart_koolproxy(void)
 {
-	if (count_stor_mountpoint())
-		eval("/usr/bin/koolproxy.sh");
+//	if (count_stor_mountpoint())
+//		eval("/usr/bin/koolproxy.sh");
+	doSystem("/usr/bin/koolproxy.sh");
 }
-
-void restart_kms(void)
-{
-	if (count_stor_mountpoint())
-		eval("/usr/bin/kms.sh");
-}
-
-void restart_dnsq(void)
-{
-	if (count_stor_mountpoint())
-		eval("/usr/bin/dnsq.sh");
-}
-
-void restart_ngrok(void)
-{
-	if (count_stor_mountpoint())
-		eval("/usr/bin/ngrok.sh");
-}
-/*迅雷、ADBYBY、kms*/
+/*迅雷、ADBYBY*/
 static void
 restore_home_dir(void)
 {

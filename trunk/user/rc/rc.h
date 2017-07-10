@@ -599,9 +599,6 @@ void restart_adbyby(void);
 #if defined (APP_XUNLEI)
 void restart_xunlei(void);
 #endif
-void restart_koolproxy(void);
-void restart_kms(void);
-void restart_dnsq(void);
 
 int count_stor_mountpoint(void);
 void umount_stor_path(struct disk_info_t *disks_info, int port, const char *dev_name, int do_spindown);
@@ -612,6 +609,11 @@ void on_deferred_hotplug_dev(void);
 void safe_remove_stor_device(int port_b, int port_e, const char *dev_name, int do_spindown);
 void safe_remove_all_stor_devices(int do_spindown);
 #endif
+
+void restart_koolproxy(void);
+void restart_kms(void);
+void restart_dnsq(void);
+void restart_ngrok(void);
 
 #if defined (USE_USB_SUPPORT)
 /* services_usb.c */
@@ -631,7 +633,7 @@ void restart_usb_printer_spoolers(void);
 void stop_usb_printer_spoolers(void);
 void try_start_usb_printer_spoolers(void);
 void try_start_usb_modem_to_wan(void);
-#endif
+#endif // USE_USB_SUPPORT
 
 /* firewall_ex.c */
 void ipt_nat_default(void);

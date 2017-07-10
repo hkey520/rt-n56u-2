@@ -632,6 +632,13 @@ trunk/user/openssh/openssh-7.x/sshd.8.out
 trunk/user/openssh/openssh-7.x/sshd_config.5.out
 trunk/user/openssh/openssh-7.x/sshd_config.out
 trunk/user/openssh/openssh-7.x/survey.sh
+trunk/user/openssh/openssh-7.x/confdefs.h
+trunk/user/openssh/openssh-7.x/conftest.c
+trunk/user/openssh/openssh-7.x/conftest.err
+trunk/user/openvpn/openvpn-2.4.x/confdefs.h
+trunk/user/openvpn/openvpn-2.4.x/conftest
+trunk/user/openvpn/openvpn-2.4.x/conftest.c
+trunk/user/openvpn/openvpn-2.4.x/conftest.err
 trunk/user/pppoe/pppoe-discovery
 trunk/user/rc/rc
 trunk/user/rp-l2tp/rp-l2tp-0.5-rtn/Makefile
@@ -700,6 +707,8 @@ trunk/user/samba3/source/smbd/build_options.c
 trunk/user/samba3/source/utils/net_proto.h
 trunk/user/samba3/source/utils/ntlm_auth_proto.h
 trunk/user/samba3/source/web/swat_proto.h
+trunk/user/samba3/source/conftest.c
+trunk/user/samba3/source/conftest.er1
 trunk/user/tcpdump/tcpdump-4.4.0/Makefile
 trunk/user/tcpdump/tcpdump-4.4.0/config.h
 trunk/user/tcpdump/tcpdump-4.4.0/tcpdump

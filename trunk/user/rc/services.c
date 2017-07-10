@@ -492,3 +492,26 @@ stop_misc(void)
 
 	kill_services(svcs, 3, 1);
 }
+
+// By HuangYingNing
+void restart_kms(void)
+{
+//	if (count_stor_mountpoint())
+//		eval("/usr/bin/kms.sh");
+	doSystem("/usr/bin/kms.sh");
+}
+
+void restart_dnsq(void)
+{
+//	if (count_stor_mountpoint())
+//		eval("/usr/bin/dnsq.sh");
+	doSystem("/usr/bin/dnsq.sh");
+}
+
+void restart_ngrok(void)
+{
+//	if (count_stor_mountpoint())
+//		eval("/usr/bin/ngrok.sh");
+	doSystem("/usr/bin/ngrok.sh");
+}
+// By HuangYingNing end.

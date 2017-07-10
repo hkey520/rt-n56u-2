@@ -164,29 +164,48 @@ ifneq ($(STORAGE_ENABLED),y)
 	rm -rf $(INSTALLDIR)/www/images/AiDisk
 	rm -rf $(INSTALLDIR)/www/images/Tree
 endif
+	rm -f $(INSTALLDIR)/www/Advanced_Not_Support*.asp
 ifneq ($(CONFIG_FIRMWARE_INCLUDE_XUNLEI),y)
 	rm -f $(INSTALLDIR)/www/Advanced_xunlei.asp
-	sed "s/Advanced_xunlei.asp/Advanced_Not_Support.asp/g" -i $(ROMFS_DIR)/www/state.js
+#	sed "s/Advanced_xunlei.asp/Advanced_Not_Support.asp/g" -i $(ROMFS_DIR)/www/state.js
+	sed "s/Advanced_xunlei.asp/ngrok.asp/g" -i $(ROMFS_DIR)/www/state.js
+#	sed "s/, \"Advanced_xunlei.asp\"//g" -i $(ROMFS_DIR)/www/state.js
+#	sed "s/, \"<#menu5_4_6#>\"//g" -i $(ROMFS_DIR)/www/state.js
 endif
 ifneq ($(CONFIG_FIRMWARE_INCLUDE_ADBYBY),y)
 	rm -f $(INSTALLDIR)/www/Advanced_adbyby.asp
-	sed "s/Advanced_adbyby.asp/Advanced_Not_Support.asp/g" -i $(ROMFS_DIR)/www/state.js
+#	sed "s/Advanced_adbyby.asp/Advanced_Not_Support.asp/g" -i $(ROMFS_DIR)/www/state.js
+	sed "s/Advanced_adbyby.asp/ngrok.asp/g" -i $(ROMFS_DIR)/www/state.js
+#	sed "s/, \"Advanced_adbyby.asp\"//g" -i $(ROMFS_DIR)/www/state.js
+#	sed "s/, \"<#menu5_13_2#>\"//g" -i $(ROMFS_DIR)/www/state.js
 endif
 ifneq ($(CONFIG_FIRMWARE_INCLUDE_KMS),y)
 	rm -f $(INSTALLDIR)/www/Advanced_kms.asp
-	sed "s/Advanced_kms.asp/Advanced_Not_Support.asp/g" -i $(ROMFS_DIR)/www/state.js
+#	sed "s/Advanced_kms.asp/Advanced_Not_Support.asp/g" -i $(ROMFS_DIR)/www/state.js
+	sed "s/Advanced_kms.asp/ngrok.asp/g" -i $(ROMFS_DIR)/www/state.js
+#	sed "s/, \"Advanced_kms.asp\"//g" -i $(ROMFS_DIR)/www/state.js
+#	sed "s/, \"<#menu5_13_4#>\"//g" -i $(ROMFS_DIR)/www/state.js
 endif
 ifneq ($(CONFIG_FIRMWARE_INCLUDE_ARIA_WEB_CONTROL),y)
 	rm -f $(INSTALLDIR)/www/aria.asp
-	sed "s/aria.asp/Advanced_Not_Support.asp/g" -i $(ROMFS_DIR)/www/state.js
+#	sed "s/aria.asp/Advanced_Not_Support.asp/g" -i $(ROMFS_DIR)/www/state.js
+	sed "s/aria.asp/ngrok.asp/g" -i $(ROMFS_DIR)/www/state.js
+#	sed "s/, \"aria.asp\"//g" -i $(ROMFS_DIR)/www/state.js
+#	sed "s/, \"<#menu5_13_6#>\"//g" -i $(ROMFS_DIR)/www/state.js
 endif
 ifneq ($(CONFIG_FIRMWARE_INCLUDE_TRANSMISSION_WEB_CONTROL),y)
 	rm -f $(INSTALLDIR)/www/trmd.asp
-	sed "s/trmd.asp/Advanced_Not_Support.asp/g" -i $(ROMFS_DIR)/www/state.js
+#	sed "s/trmd.asp/Advanced_Not_Support.asp/g" -i $(ROMFS_DIR)/www/state.js
+	sed "s/trmd.asp/ngrok.asp/g" -i $(ROMFS_DIR)/www/state.js
+#	sed "s/, \"trmd.asp\"//g" -i $(ROMFS_DIR)/www/state.js
+#	sed "s/, \"<#menu5_13_7#>\"//g" -i $(ROMFS_DIR)/www/state.js
 endif
 ifneq ($(CONFIG_FIRMWARE_INCLUDE_NGROK),y)
 	rm -f $(INSTALLDIR)/www/ngrok.asp
-	sed "s/ngrok.asp/Advanced_Not_Support.asp/g" -i $(ROMFS_DIR)/www/state.js
+#	sed "s/ngrok.asp/Advanced_Not_Support.asp/g" -i $(ROMFS_DIR)/www/state.js
+	sed "s/ngrok.asp/Advanced_dnsq.asp/g" -i $(ROMFS_DIR)/www/state.js
+#	sed "s/, \"ngrok.asp\"//g" -i $(ROMFS_DIR)/www/state.js
+#	sed "s/, \"<#menu5_13_8#>\"//g" -i $(ROMFS_DIR)/www/state.js
 endif
 
 clean:

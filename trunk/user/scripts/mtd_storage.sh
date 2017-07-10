@@ -10,6 +10,8 @@ tmp="/tmp/storage.tar"
 tbz="${tmp}.bz2"
 hsh="/tmp/hashes/storage_md5"
 
+echo `/bin/date` run "$*" >> /tmp/mtd_storage.log
+
 func_get_mtd()
 {
 	local mtd_part mtd_char mtd_idx mtd_hex
@@ -228,7 +230,7 @@ func_fill()
 
 	# create started script
 	if [ ! -f "$script_started" ] ; then
-		cat > "$script_started" <<EOF
+		cat > "$script_started" <<-\EEE
 #!/bin/sh
 
 ### Custom user script
@@ -242,7 +244,35 @@ func_fill()
 #modprobe ip_set_list_set
 #modprobe xt_set
 
-EOF
+stop_ftpsamba
+sleep 5
+#mdev -s
+# Mount SD Card
+for mmc_mount in `ls -p /dev | grep -E mmcblk[0-9]p[0-9]`
+do
+	[ ! -z "$(df -m | grep $mmc_mount )" ] && continue
+	echo $mmc_mount
+	device_name=`echo ${mmc_mount:6:1}`
+	partno=`echo ${mmc_mount:8:1}`
+	[ -z "$partno" ] && partno=1
+	/sbin/automount.sh $mmc_mount AiCard_$device_name$partno
+done
+
+# Mount Disk
+for sd_mount in `ls -p /dev | grep -E sd[a-z]`
+do
+	[ ! -z "$(df -m | grep $sd_mount )" ] && continue
+	echo $sd_mount
+	device_name=`echo ${sd_mount:2:1}`
+	partno=`echo ${sd_mount:3:1}`
+	[ -z "$partno" ] && partno=1
+	/sbin/automount.sh $sd_mount AiDisk_$device_name$partno
+done
+run_ftpsamba
+sleep 5
+
+
+EEE
 		chmod 755 "$script_started"
 	fi
 
@@ -613,6 +643,8 @@ EOF
 			chmod 644 "$user_sswan_secrets"
 		fi
 	fi
+
+	# mount
 }
 
 case "$1" in
