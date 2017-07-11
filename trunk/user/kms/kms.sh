@@ -15,10 +15,12 @@ exit 0
 fi
 #port="1688"
 if [ ! -f /etc_ro/vlmcsd.kmd ]; then
-/etc/storage/vlmcsd&
+# /etc/storage/vlmcsd&
+/usr/bin/vlmcsd &
 fi
 if [ -f /etc_ro/vlmcsd.kmd ]; then
-/etc/storage/vlmcsd -j /etc_ro/vlmcsd.kmd &
+# /etc/storage/vlmcsd -j /etc_ro/vlmcsd.kmd &
+/usr/bin/vlmcsd -j /etc_ro/vlmcsd.kmd &
 fi
 computer_name=`nvram get computer_name`
 sed -Ei '/_vlmcs._tcp/d' /etc/storage/dnsmasq/dnsmasq.conf

@@ -1136,13 +1136,6 @@ void restart_xunlei(void)
 	doSystem("/usr/bin/xunlei.Sh");
 }
 
-void restart_adbyby(void)
-{
-//	if (count_stor_mountpoint())
-//		eval("/usr/bin/adbyby.sh");
-	doSystem("/usr/bin/adbyby.sh");
-}
-
 void restart_koolproxy(void)
 {
 //	if (count_stor_mountpoint())

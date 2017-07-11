@@ -494,6 +494,13 @@ stop_misc(void)
 }
 
 // By HuangYingNing
+void restart_adbyby(void)
+{
+//	if (count_stor_mountpoint())
+//		eval("/usr/bin/adbyby.sh");
+	doSystem("/usr/bin/adbyby.sh");
+}
+
 void restart_kms(void)
 {
 //	if (count_stor_mountpoint())

@@ -933,8 +933,14 @@ handle_notifications(void)
 	char notify_name[256];
 
 	DIR *directory = opendir(DIR_RC_NOTIFY);
+
+	logmessage("rc", "handle notifications\n");
+
 	if (!directory)
+	{
+		logmessage("rc", "no directory:%s\n", DIR_RC_NOTIFY);
 		return;
+	}
 
 	// handle max 10 requests at once (prevent deadlock)
 	for (i=0; i < 10; i++)
@@ -1092,7 +1098,7 @@ handle_notifications(void)
 			nvram_set_int_temp("usb_unplug_md", 1);
 			alarm(5);
 		}
-#endif
+#endif // USE_USB_SUPPORT
 #if defined (USE_STORAGE)
 		else if (!strcmp(entry->d_name, "on_hotplug_mass_storage"))
 		{
@@ -1155,12 +1161,6 @@ handle_notifications(void)
 			restart_aria();
 		}
 #endif
-#if defined(APP_ADBYBY)
-		else if (strcmp(entry->d_name, RCN_RESTART_ADBYBY) == 0)
-		{
-			restart_adbyby();
-		}
-#endif
 #if defined(APP_XUNLEI)
 		else if (strcmp(entry->d_name, RCN_RESTART_XUNLEI) == 0)
 		{
@@ -1168,6 +1168,12 @@ handle_notifications(void)
 		}
 #endif
 #endif // USE_STORAGE
+#if defined(APP_ADBYBY)
+		else if (strcmp(entry->d_name, RCN_RESTART_ADBYBY) == 0)
+		{
+			restart_adbyby();
+		}
+#endif
 #if defined(APP_KMS)
 		else if (strcmp(entry->d_name, RCN_RESTART_KMS) == 0)
 		{
