@@ -10,10 +10,17 @@ endif
 CC?=gcc
 CXX?=g++
 
-CFLAGS	+= -I$(STAGEDIR)/include
+# static link gcc and stdc++
+# CFLAGS	+= -I$(STAGEDIR)/include 
+# shared link gcc and stdc++
+CFLAGS	+= -I$(STAGEDIR)/include -fPIC -O2
 # CFLAGS	+= -fexceptions -DOPENSSL=1 -O2
 
-LDFLAGS	+= -L$(ROOTDIR)/../toolchain-mipsel/toolchain-3.4.x/mipsel-linux-uclibc/lib -L$(STAGEDIR)/lib -L$(ROOTDIR)/libs/libstd 
+# static link gcc and stdc++
+# LDFLAGS	+= -L$(ROOTDIR)/../toolchain-mipsel/toolchain-3.4.x/mipsel-linux-uclibc/lib -L$(STAGEDIR)/lib -L$(ROOTDIR)/libs/libstd 
+# shared link gcc and stdc++
+LDFLAGS	+= -L$(STAGEDIR)/lib -L$(ROOTDIR)/libs/libstd -shared -lgcc_s -lstdc++ 
+
 CXXFLAGS+= -L$(ROOTDIR)/../toolchain-mipsel/toolchain-3.4.x/mipsel-linux-uclibc/lib -L$(STAGEDIR)/lib -L$(ROOTDIR)/libs/libstd 
 # CXXFLAGS+= -fexceptions -DOPENSSL=1 -O2
 
@@ -47,8 +54,8 @@ config_test:
 
 configure:
 	( cd $(SRC_NAME) ; \
-	cp -f Makefile.openssl.static Makefile ; \
-	echo not cp -f Makefile.openssl Makefile ; \
+	echo not cp -f Makefile.openssl.static Makefile ; \
+	cp -f Makefile.openssl Makefile ; \
 	export CFLAGS="$(CFLAGS)" ; \
 	export LDFLAGS="$(LDFLAGS)" ; \
 	../fix.sh ; \

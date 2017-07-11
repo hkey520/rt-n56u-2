@@ -1,4 +1,5 @@
 #!/bin/bash
+# By HuangYingNing
 
 echo CFLAGS=${CFLAGS} LDFLAGS=${LDFLAGS}
 CFLAGS_STR=${CFLAGS//\//\\\/}
