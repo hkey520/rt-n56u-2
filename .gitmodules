@@ -1,3 +1,6 @@
 [submodule "RT-N56U-Profiles"]
 	path = RT-N56U-Profiles
 	url = https://github.com/AdvancedWRT/RT-N56U-Profiles.git
+[submodule "trunk/user/ngrok/ngrok-c"]
+	path = trunk/user/ngrok/ngrok-c
+	url = https://github.com/dosgo/ngrok-c.git
