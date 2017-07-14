@@ -10,8 +10,8 @@ romfs:
 	$(ROMFSINST) /sbin/mtd_storage.sh
 ifeq ($(STORAGE_ENABLED),y)
 	$(ROMFSINST) /sbin/automount.sh
-	$(ROMFSINST) /usr/bin/dnsq.sh
 endif
+	$(ROMFSINST) /usr/bin/dnsq.sh
 ifdef CONFIG_BLK_DEV_SD
 	$(ROMFSINST) /sbin/hddtune.sh
 	$(ROMFSINST) /sbin/spindown.sh
