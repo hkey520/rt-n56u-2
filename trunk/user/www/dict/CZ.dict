@@ -688,7 +688,7 @@ Setting_upload_itemdesc=Specifikujte cestu a jméno souboru nastavení. Poté kl
 Setting_upload_hint=Formát souboru nebo cesta jsou neplatné!
 Setting_factorydefault_hint1=Všechna současná nastavení budou smazána a router bude nakonfigurován do továrního nastavení.\n
 Setting_factorydefault_hint2=Opravdu chcete pokračovat?
-Setting_factorydefault_iphint=Původní nastavení LAN IP ZVMODELVZ je 192.168.1.1.\n Pokud se později nebudete moci vrátit na tuto stránku, prosím ověřte IP konfiguraci svého PC.
+Setting_factorydefault_iphint=Původní nastavení LAN IP ZVMODELVZ je 192.168.123.1.\n Pokud se později nebudete moci vrátit na tuto stránku, prosím ověřte IP konfiguraci svého PC.
 SET_ok_desc=Nastavení se nahrává! Prosím počkejte přibližně 30 vteřin.
 SET_fail_desc=Nahrání souboru nastavení nebylo úspěšné. Mohlo se tak stát nesprávným souborem nastavení, nebo chybou v přenosu. Prosím zkontrolujte platnost souboru nastavení a zkuste to znovu.
 RHELP_desc4=Značí cílovou síť nebo hostitele pravidla routování. Mohlo by se tedy jednat o adresu hostitele jako 「192.168.123.11」nebo sítovou adresu jako 「192.168.0.0」.
@@ -1230,7 +1230,7 @@ HSDPAConfig_username_itemdesc=Zadejte vaše uživatelské jméno.
 HSDPAConfig_password_itemdesc=Zadejte vaše heslo.
 HSDPAConfig_usbadaptor_itemdesc=Vyberte váš usb adaptér.
 HSDPAConfig_safely_remove=Safely remove USB Modem
-LANHostConfig_IPRouters_itemdesc=IP adresa LAN ZVMODELVZ. Původní hodnota je 192.168.1.1.
+LANHostConfig_IPRouters_itemdesc=IP adresa LAN ZVMODELVZ. Původní hodnota je 192.168.123.1.
 HSDPAConfig_hsdpa_mode_itemdesc=Choose the USB Modem mode according by your requirements and enviroments. We provide four mode below: Backup, Equal weight, Always high and Always low. Chcete-li bezpečně odebrat USB Modem adaptér, viz <a href='/index.asp' target=\'_blank\'>Rejstřík</a> a klepněte na tlačítko adaptéru.
 Not_authpage_login_again=Chcete-li se znovu přihlásit, nejdříve zavřete toto okno.
 GO_HSDPA_SETTING=Přejít na USB Modem nastavení

@@ -688,7 +688,7 @@ Setting_upload_itemdesc=Specify the path and name of setting file. Then click [U
 Setting_upload_hint=Format pliku lub ścieżka dostępu jest nieprawidłowa!
 Setting_factorydefault_hint1=Wszystkie bieżące ustawienia zostaną skasowane, a konfiguracja zostanie przywrócona do domyslnej!
 Setting_factorydefault_hint2=Jesteś pewny, że chcesz kontynuować?
-Setting_factorydefault_iphint=Domyślny adres LAN IP to 192.168.1.1\nJeżeli nie możesz mógł się połączyć, odśwież dzierżawę IP na Twoim komputerze.
+Setting_factorydefault_iphint=Domyślny adres LAN IP to 192.168.123.1\nJeżeli nie możesz mógł się połączyć, odśwież dzierżawę IP na Twoim komputerze.
 SET_ok_desc=Ustawienia przywrócone! Poczekaj około 30 sekund.
 SET_fail_desc=Przywracanie ustawień przerwane. Sprawdź poprawność pliku, połączenie między routerem a PC i spróboj ponownie!
 RHELP_desc4=Oznacza to docelową sieć lub hosta reguły routingu. Może więc być to adres hosta np..「192.168.123.11」 lub adres sieci np..「192.168.0.0」.
@@ -1230,7 +1230,7 @@ HSDPAConfig_username_itemdesc=Wprowadź nazwę użytkownika.
 HSDPAConfig_password_itemdesc=Wprowadź hasło.
 HSDPAConfig_usbadaptor_itemdesc=Wybierz adapter USB
 HSDPAConfig_safely_remove=Safely remove USB Modem
-LANHostConfig_IPRouters_itemdesc=Adres LAN IP routera ZVMODELVZ. Domyślny adres to 192.168.1.1.
+LANHostConfig_IPRouters_itemdesc=Adres LAN IP routera ZVMODELVZ. Domyślny adres to 192.168.123.1.
 HSDPAConfig_hsdpa_mode_itemdesc=Choose the USB Modem mode according by your requirements and enviroments. We provide four mode below: Backup, Equal weight, Always high and Always low. W celu bezpiecznego odłączenia adaptera USB Modem, sprawdź <a href='/index.asp' target=\'_blank\'>Indeks</a> i kliknij przycisk adaptera.
 Not_authpage_login_again=Aby zalogować ponownie, najpierw zamknij to okno.  
 GO_HSDPA_SETTING=Idź do ustawień USB Modem

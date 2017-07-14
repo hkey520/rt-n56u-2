@@ -688,7 +688,7 @@ Setting_upload_itemdesc=Spécifiez le chemin et le nom du fichier de configurati
 Setting_upload_hint=Le format du fichier ou l'emplacement de destination est invalide!
 Setting_factorydefault_hint1=Le routeur est réinitialisé et les paramètres actuels sont supprimés.\n
 Setting_factorydefault_hint2=Voulez-vous continuer ?
-Setting_factorydefault_iphint=L'adresse IP LAN du ZVMODELVZ est 192.168.1.1.\nSi vous ne pouvez plus accéder à la page de configuration, renouvelez la configuration IP de votre ordinateur.
+Setting_factorydefault_iphint=L'adresse IP LAN du ZVMODELVZ est 192.168.123.1.\nSi vous ne pouvez plus accéder à la page de configuration, renouvelez la configuration IP de votre ordinateur.
 SET_ok_desc=La configuration est en cours de chargement! Veuillez patienter environ 60.
 SET_fail_desc=Echec du chargement du fichier de configuration. Ceci peut provenir d'un fichier de configuration incorrect ou d'une erreur de transmission. Vérifiez la validation de "Setting File" puis réessayez.
 RHELP_desc4=Réseau de destination ou hôte pour une règle de routage. Peut être une adresse d'hôte telle que 「192.168.123.11」ou l'adresse d'un réseau, par exemple 「192.168.0.0」.
@@ -1230,7 +1230,7 @@ HSDPAConfig_username_itemdesc=Saisissez votre nom d'utilisateur.
 HSDPAConfig_password_itemdesc=Saisissez votre mot de passe.
 HSDPAConfig_usbadaptor_itemdesc=Sélectionnez votre adaptateur USB.
 HSDPAConfig_safely_remove=Safely remove USB Modem
-LANHostConfig_IPRouters_itemdesc=L'adresse IP du réseau local du ZVMODELVZ. La valeur par défaut est 192.168.1.1.
+LANHostConfig_IPRouters_itemdesc=L'adresse IP du réseau local du ZVMODELVZ. La valeur par défaut est 192.168.123.1.
 HSDPAConfig_hsdpa_mode_itemdesc=Choose the USB Modem mode according by your requirements and enviroments. We provide four mode below: Backup, Equal weight, Always high and Always low. Pour retirer en toute sécurité l'adaptateur USB Modem, référez-vous à <a href='/index.asp' target=\'_blank\'>Index</a> et cliquez sur le bouton de l'adaptateur.
 Not_authpage_login_again=Si vous souhaitez vous connecter à nouveau, veuillez d'abord fermer cette fenêtre.
 GO_HSDPA_SETTING=Allez dans les USB Modem avancés
