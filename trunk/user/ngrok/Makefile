@@ -11,17 +11,20 @@ CC?=gcc
 CXX?=g++
 
 # static link gcc and stdc++
-# CFLAGS	+= -I$(STAGEDIR)/include 
+CFLAGS	+= -I$(STAGEDIR)/include 
 # shared link gcc and stdc++
-CFLAGS	+= -I$(STAGEDIR)/include -fPIC -O2
+#CFLAGS	+= -I$(STAGEDIR)/include -fPIC -O2
+# CFLAGS	+= -I$(STAGEDIR)/include  -fPIC -O1
 # CFLAGS	+= -fexceptions -DOPENSSL=1 -O2
 
 # static link gcc and stdc++
-# LDFLAGS	+= -L$(ROOTDIR)/../toolchain-mipsel/toolchain-3.4.x/mipsel-linux-uclibc/lib -L$(STAGEDIR)/lib -L$(ROOTDIR)/libs/libstd 
+LDFLAGS	+= -L$(ROOTDIR)/../toolchain-mipsel/toolchain-3.4.x/mipsel-linux-uclibc/lib -L$(STAGEDIR)/lib -L$(ROOTDIR)/libs/libstd 
 # shared link gcc and stdc++
-LDFLAGS	+= -L$(STAGEDIR)/lib -L$(ROOTDIR)/libs/libstd -shared -lgcc_s -lstdc++ 
+#LDFLAGS	+= -L$(STAGEDIR)/lib -L$(ROOTDIR)/libs/libstd  -fPIC -Wl,-shared -lgcc -lgcc_s -lstdc++ 
+#LDFLAGS	+= -L$(STAGEDIR)/lib -L$(ROOTDIR)/libs/libstd  -fPIC -shared  -lgcc_s -lstdc++ 
+# LDFLAGS	+= -L$(STAGEDIR)/lib -L$(ROOTDIR)/libs/libstd -shared-libgcc_s -shared-libstdc++ 
 
-CXXFLAGS+= -L$(ROOTDIR)/../toolchain-mipsel/toolchain-3.4.x/mipsel-linux-uclibc/lib -L$(STAGEDIR)/lib -L$(ROOTDIR)/libs/libstd 
+# CXXFLAGS+= -L$(ROOTDIR)/../toolchain-mipsel/toolchain-3.4.x/mipsel-linux-uclibc/lib -L$(STAGEDIR)/lib -L$(ROOTDIR)/libs/libstd 
 # CXXFLAGS+= -fexceptions -DOPENSSL=1 -O2
 
 LIBS=sendmsg.o openssldl.o cJSON.o nonblocking.o sslbio.o ngrok.o main.o
@@ -54,8 +57,8 @@ config_test:
 
 configure:
 	( cd $(SRC_NAME) ; \
-	echo not cp -f Makefile.openssl.static Makefile ; \
-	cp -f Makefile.openssl Makefile ; \
+	cp -f Makefile.openssl.static Makefile ; \
+	echo not cp -f Makefile.openssl Makefile ; \
 	export CFLAGS="$(CFLAGS)" ; \
 	export LDFLAGS="$(LDFLAGS)" ; \
 	../fix.sh ; \

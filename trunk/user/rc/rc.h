@@ -593,9 +593,6 @@ void stop_aria(void);
 void run_aria(void);
 void restart_aria(void);
 #endif
-#if defined (APP_ADBYBY)
-void restart_adbyby(void);
-#endif
 #if defined (APP_XUNLEI)
 void restart_xunlei(void);
 #endif
@@ -610,6 +607,9 @@ void safe_remove_stor_device(int port_b, int port_e, const char *dev_name, int d
 void safe_remove_all_stor_devices(int do_spindown);
 #endif
 
+#if defined (APP_ADBYBY)
+void restart_adbyby(void);
+#endif
 void restart_koolproxy(void);
 void restart_kms(void);
 void restart_dnsq(void);
