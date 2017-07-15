@@ -50,7 +50,7 @@ func_start()
 		key_4="-4"
 	fi
 
-	/usr/sbin/dropbear $key_4 $key_s
+	/usr/sbin/dropbear $key_4 $key_s -b /etc_ro/banner
 }
 
 func_stop()
