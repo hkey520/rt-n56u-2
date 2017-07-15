@@ -84,6 +84,7 @@ check_header_image(const char *buf, long *file_len)
 {
 	int pid_asus_len;
 	char pid_asus[32];
+	char *pid, *expid;
 	image_header_t *hdr = (image_header_t *)buf;
 
 	/* check header magic */
@@ -98,8 +99,42 @@ check_header_image(const char *buf, long *file_len)
 
 	strncpy(pid_asus, buf+36, pid_asus_len);
 	pid_asus[pid_asus_len] = 0;
+	// By HuangYingNing
+	pid = pid_asus;
+	expid = BOARD_PID; // 期望的产品标识
+	// 跳过RT-的标准标识
+	if (strncmp(pid, "RT-", 3) == 0)
+	{
+		pid += 3;
+		while (*pid != NULL && *pid != '-' && *pid != '_')
+		{
+			pid++;
+		}
+		if (*pid == '-' || *pid == '_')
+		{
+			pid++;
+		}
+	}
+	if (strncmp(expid, "RT-", 3) == 0)
+	{
+		expid += 3;
+		while (*expid != NULL && *expid != '-' && *expid != '_')
+		{
+			expid++;
+		}
+		if (*expid == '-' || *expid == '_')
+		{
+			expid++;
+		}
+	}
+	// 按最小长度比较，支持不同内存版本互刷
+	pid_asus_len = strlen(pid);
+	if (strlen(expid) < pid_asus_len)
+	{
+		pid_asus_len = strlen(expid);
+	}
 
-	if (strncmp(pid_asus, BOARD_PID, strlen(pid_asus) < pid_asus_len ? strlen(pid_asus) : pid_asus_len) != 0) {
+	if (strncmp(pid, expid, pid_asus_len) != 0) {
 		httpd_log("%s: Incorrect image ProductID: %s! Expected is %s.", "Firmware update", pid_asus, BOARD_PID);
 		return -2;
 	}

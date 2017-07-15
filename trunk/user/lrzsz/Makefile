@@ -14,6 +14,8 @@ config_test:
 
 configure:
 	( cd $(SRC_NAME) ; \
+	aclocal ; \
+	automake ; \
 	./configure \
 		--prefix=/usr \
 		--with-libiconv-prefix=$(STAGEDIR) \

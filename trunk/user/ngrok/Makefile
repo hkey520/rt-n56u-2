@@ -52,6 +52,8 @@ config_test:
 	( if [ -f ./config_done ]; then \
 		echo "the same configuration"; \
 	else \
+		git submodule init ; \
+		git submodule update ; \
 		make configure && touch config_done; \
 	fi )
 
