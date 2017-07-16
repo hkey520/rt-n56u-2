@@ -38,6 +38,76 @@ static int nvram_modem_rule = 0;
 static int nvram_nf_nat_type = 0;
 static int nvram_ipv6_type = 0;
 
+// By HuangYingNing
+static char *
+getDefaultSsid(char *ssid, size_t size, char *value)
+{
+	logmessage("rc", "value=%s\n", value);
+	if (ssid && value)
+	{
+		char *addBefore = strstr(value, "_5G");
+		int len;
+
+		len = strlen(value);
+		if (addBefore == NULL)
+		{
+			addBefore = strstr(value, "_G"); // 2G Guest ssid
+		}
+		if (addBefore == NULL)
+		{
+			addBefore = value + len;
+		}
+		if (size > len + 4)
+		{
+			char *mac, *p;
+			int cp_len = addBefore - value;
+
+			strncpy(ssid, value, cp_len);
+			ssid[cp_len] = '\0';
+			mac = nvram_safe_get("il0macaddr"); // nvram_safe_get("lan_hwaddr");
+			if (mac == NULL)
+			{
+				get_eeprom_params();
+				mac = nvram_safe_get("il0macaddr");
+			}
+			if (mac)
+			{
+				logmessage("rc", "mac:%s\n", mac);
+				// get last MAC
+				for (p = mac + strlen(mac), len = 0; *p != ':' && p != mac; p--, len++);
+				if (p != mac)
+				{
+					for (p--; *p != ':' && p != mac; p--, len++);
+				}
+				if (p != mac)
+				{
+					strcat(ssid, "_");
+					strncat(ssid, p + 1, 2);
+					if (len >= 5)
+					{
+						strncat(ssid, p + 4, 2);
+					}
+				}
+			}
+			else
+				logmessage("rc", "no mac\n");
+			strcat(ssid, addBefore);
+		}
+		else
+		{
+			strncpy(ssid, value, size);
+			ssid[size] = '\0';
+		}
+	}
+	else if (ssid)
+	{
+		ssid[0] = '\0';
+	}
+	logmessage("rc", "ret:%s\n", ssid);
+	return ssid;
+}
+// By HuangYingNing end
+
 static int
 nvram_restore_defaults(void)
 {
@@ -47,6 +117,7 @@ nvram_restore_defaults(void)
 	/* Restore defaults if told to or OS has changed */
 	restore_defaults = !nvram_match("restore_defaults", "0");
 
+	logmessage("rc", "restore_defaults:%d\n", restore_defaults);
 	/* check asus-wrt NVRAM content (sorry, but many params is incompatible) */
 	if (!restore_defaults) {
 		if (nvram_get("buildno") && nvram_get("buildinfo") && nvram_get("extendno"))
@@ -59,7 +130,21 @@ nvram_restore_defaults(void)
 	/* Restore defaults */
 	for (np = router_defaults; np->name; np++) {
 		if (restore_defaults || !nvram_get(np->name)) {
-			nvram_set(np->name, np->value);
+			// By HuangYingNing
+			if (!strcmp(np->name, "rt_ssid") || !strcmp(np->name, "rt_ssid2")
+				|| !strcmp(np->name, "wl_ssid") || !strcmp(np->name, "wl_ssid2")
+				|| !strcmp(np->name, "rt_guest_ssid") || !strcmp(np->name, "wl_guest_ssid"))
+			{
+				// 设置默认ssid
+				char ssid[64];
+
+				getDefaultSsid(ssid, sizeof(ssid), np->value);
+				nvram_set(np->name, ssid);
+			}
+			else
+			{
+				nvram_set(np->name, np->value);
+			}
 		}
 	}
 
@@ -409,8 +494,13 @@ nvram_convert_misc_values(void)
 #endif
 
 #if BOARD_HAS_5G_RADIO
-	if (strlen(nvram_wlan_get(1, "ssid")) < 1)
-		nvram_wlan_set(1, "ssid", DEF_WLAN_5G_SSID);
+	if (strlen(nvram_wlan_get(1, "ssid")) < 1 || !strcmp(nvram_wlan_get(1, "ssid"), DEF_WLAN_5G_SSID))
+	{
+		// By HuangYingNing
+		char ssid[64];
+
+		nvram_wlan_set(1, "ssid", getDefaultSsid(ssid, sizeof(ssid), DEF_WLAN_5G_SSID));
+	}
 
 	memset(buff, 0, sizeof(buff));
 	char_to_ascii(buff, nvram_wlan_get(1, "ssid"));
@@ -440,8 +530,13 @@ nvram_convert_misc_values(void)
 		nvram_wlan_set_int(1, "stream_rx", BOARD_NUM_ANT_5G_RX);
 #endif
 
-	if (strlen(nvram_wlan_get(0, "ssid")) < 1)
-		nvram_wlan_set(0, "ssid", DEF_WLAN_2G_SSID);
+	if (strlen(nvram_wlan_get(0, "ssid")) < 1 || !strcmp(nvram_wlan_get(0, "ssid"), DEF_WLAN_2G_SSID))
+	{
+		// By HuangYingNing
+		char ssid[64];
+
+		nvram_wlan_set(0, "ssid", getDefaultSsid(ssid, sizeof(ssid), DEF_WLAN_2G_SSID));
+	}
 
 	memset(buff, 0, sizeof(buff));
 	char_to_ascii(buff, nvram_wlan_get(0, "ssid"));
@@ -769,6 +864,8 @@ init_router(void)
 {
 	int log_remote, is_ap_mode, nvram_need_commit;
 
+	logmessage("init", "init router\n");
+	
 #if defined (USE_RTL8367)
 	rtl8367_node();
 #endif
