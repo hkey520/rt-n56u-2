@@ -836,17 +836,10 @@ size_t dhcp_reply(struct dhcp_context *context, char *iface_name, int int_index,
 	  
 	  if (strchr(service->basename, '.'))
 	    snprintf((char *)mess->file, sizeof(mess->file),
-<<<<<<< HEAD
-		"%s.%d", service->basename, layer);
-	  else
-	    snprintf((char *)mess->file, sizeof(mess->file),
-		"%s", service->basename);
-=======
 		"%s", service->basename);
 	  else
 	    snprintf((char *)mess->file, sizeof(mess->file),
 		"%s.%d", service->basename, layer);
->>>>>>> padavan/master
 	  
 	  option_put(mess, end, OPTION_MESSAGE_TYPE, 1, DHCPACK);
 	  option_put(mess, end, OPTION_SERVER_IDENTIFIER, INADDRSZ, htonl(context->local.s_addr));
@@ -1047,8 +1040,6 @@ size_t dhcp_reply(struct dhcp_context *context, char *iface_name, int int_index,
 		  else if (have_config(config, CONFIG_DECLINED) &&
 			   difftime(now, config->decline_time) < (float)DECLINE_BACKOFF)
 		    my_syslog(MS_DHCP | LOG_WARNING, _("not using configured address %s because it was previously declined"), addrs);
-		  else if (!do_icmp_ping(now, config->addr, 0, loopback))
-		    my_syslog(MS_DHCP | LOG_WARNING, _("not using configured address %s because it is in use by another host"), addrs);
 		  else
 		    conf = config->addr;
 		}
@@ -1602,7 +1593,7 @@ static void log_packet(char *type, void *addr, unsigned char *ext_mac,
 {
   struct in_addr a;
  
-  if (!err && !option_bool(OPT_LOG_OPTS) && option_bool(OPT_QUIET_DHCP))
+  if (/*!err && */!option_bool(OPT_LOG_OPTS) && option_bool(OPT_QUIET_DHCP))
     return;
   
   /* addr may be misaligned */

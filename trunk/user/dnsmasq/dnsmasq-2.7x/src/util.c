@@ -192,10 +192,6 @@ int legal_hostname(char *name)
 char *canonicalise(char *in, int *nomem)
 {
   char *ret = NULL;
-<<<<<<< HEAD
-#if defined(HAVE_IDN) || defined(HAVE_LIBIDN2)
-=======
->>>>>>> padavan/master
   int rc;
   
   if (nomem)
@@ -204,24 +200,12 @@ char *canonicalise(char *in, int *nomem)
   if (!(rc = check_name(in)))
     return NULL;
   
-<<<<<<< HEAD
-#if defined(HAVE_IDN) || defined(HAVE_LIBIDN2)
-#ifdef HAVE_LIBIDN2
-  rc = idn2_to_ascii_lz(in, &ret, IDN2_NONTRANSITIONAL);
-  if (rc == IDN2_DISALLOWED)
-    rc = idn2_to_ascii_lz(in, &ret, IDN2_TRANSITIONAL);
-#else
-  rc = idna_to_ascii_lz(in, &ret, 0);
-#endif
-  if (rc != IDNA_SUCCESS)
-=======
 #if defined(HAVE_LIBIDN2) && (!defined(IDN2_VERSION_NUMBER) || IDN2_VERSION_NUMBER < 0x02000003)
   /* older libidn2 strips underscores, so don't do IDN processing
      if the name has an underscore (check_name() returned 2) */
   if (rc != 2)
 #endif
 #if defined(HAVE_IDN) || defined(HAVE_LIBIDN2)
->>>>>>> padavan/master
     {
 #  ifdef HAVE_LIBIDN2
       rc = idn2_to_ascii_lz(in, &ret, IDN2_NONTRANSITIONAL);
