@@ -41,6 +41,8 @@ ngrokxspot2=`nvram get ngrok_x_spot2`
 ngrokxspot3=`nvram get ngrok_x_spot3`
 ngrokxspot4=`nvram get ngrok_x_spot4`
 
+echo "`/bin/date` ngrokenable=${ngrokenable}" >> /tmp/ngrok.log
+
 if [ "$ngrokenable" != "1" ]; then
 	killall ngrokc
 	sed -i '/ngrok/d' /etc/storage/post_wan_script.sh
