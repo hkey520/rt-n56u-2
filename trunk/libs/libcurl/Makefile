@@ -1,7 +1,18 @@
-SRC_NAME=curl-7.37.x
+SRC_NAME=curl-7.61.0
+SRC_URL=https://github.com/curl/curl/releases/download/curl-7_61_0/curl-7.61.0.tar.gz
 
-all: config_test
+all: download_test extract_test config_test
 	$(MAKE) -C $(SRC_NAME)
+	
+download_test:
+	( if [ ! -f $(SRC_NAME).tar.gz ]; then \
+		wget -t5 --timeout=20 --no-check-certificate -O $(SRC_NAME).tar.gz $(SRC_URL); \
+	fi )
+
+extract_test:
+	( if [ ! -d $(SRC_NAME) ]; then \
+		tar zxf $(SRC_NAME).tar.gz; \
+	fi )
 
 config_test:
 	( if [ -f ./config_done ]; then \
@@ -15,7 +26,7 @@ configure:
 	./configure \
 		--prefix=$(STAGEDIR) \
 		--enable-static \
-		--disable-shared \
+		--enable-shared \
 		$(if $(CONFIG_IPV6),--enable-ipv6,--disable-ipv6) \
 		--disable-gopher \
 		--disable-ldap \
@@ -59,5 +70,7 @@ install:
 	$(MAKE) -C $(SRC_NAME) install DESTDIR=""
 
 romfs:
-	$(ROMFSINST) $(SRC_NAME)/src/curl /usr/bin/curl
-
+ifeq ($(CONFIG_FIRMWARE_INCLUDE_CURL),y)
+	$(ROMFSINST) -d $(DESTDIR)/bin/curl /usr/bin/curl
+endif
+	cp -fP $(DESTDIR)/lib/libcurl.so* $(ROMFSDIR)/lib

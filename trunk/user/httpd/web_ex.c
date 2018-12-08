@@ -1932,6 +1932,149 @@ wan_action_hook(int eid, webs_t wp, int argc, char **argv)
 	return 0;
 }
 
+#if defined (APP_SCUT)
+static int scutclient_action_hook(int eid, webs_t wp, int argc, char **argv)
+{
+	int needed_seconds = 2;
+	char *scut_action = websGetVar(wp, "connect_action", "");
+
+	if (!strcmp(scut_action, "Reconnect")) {
+		notify_rc(RCN_RESTART_SCUT);
+	}
+	else if (!strcmp(scut_action, "Disconnect")) {
+		notify_rc("stop_scutclient");
+	}
+
+	websWrite(wp, "<script>restart_needed_time(%d);</script>\n", needed_seconds);
+	return 0;
+}
+
+static int scutclient_status_hook(int eid, webs_t wp, int argc, char **argv)
+{
+	int status_code = pids("bin_scutclient");
+	websWrite(wp, "function scutclient_status() { return %d;}\n", status_code);
+	return 0;
+}
+
+static int scutclient_version_hook(int eid, webs_t wp, int argc, char **argv)
+{
+	FILE *fstream = NULL;
+	char ver[8];
+	memset(ver, 0, sizeof(ver));
+	fstream = popen("/usr/bin/bin_scutclient -V","r");
+	if(fstream) {
+		fgets(ver, sizeof(ver), fstream);
+		pclose(fstream);
+		if (strlen(ver) > 0)
+			ver[strlen(ver) - 1] = 0;
+		if (!(ver[0]>='0' && ver[0]<='9'))
+			sprintf(ver, "%s", "unknown");
+	} else {
+		sprintf(ver, "%s", "unknown");
+	}
+	websWrite(wp, "function scutclient_version() { return '%s';}\n", ver);
+	return 0;
+}
+#endif
+
+#if defined (APP_SHADOWSOCKS)
+static int shadowsocks_action_hook(int eid, webs_t wp, int argc, char **argv)
+{
+	int needed_seconds = 3;
+	char *ss_action = websGetVar(wp, "connect_action", "");
+
+	if (!strcmp(ss_action, "Reconnect")) {
+		notify_rc(RCN_RESTART_SHADOWSOCKS);
+	} else if (!strcmp(ss_action, "Update_chnroute")) {
+		notify_rc(RCN_RESTART_CHNROUTE_UPD);
+		needed_seconds = 1;
+	} else if (!strcmp(ss_action, "Reconnect_ss_tunnel")) {
+		notify_rc(RCN_RESTART_SS_TUNNEL);
+	} else if (!strcmp(ss_action, "Update_gfwlist")) {
+		notify_rc(RCN_RESTART_GFWLIST_UPD);
+	}
+#if defined(APP_DNSMASQ_CHINA_CONF)
+	else if (!strcmp(ss_action, "Update_dnsmasq_china_conf")) {
+		notify_rc(RCN_RESTART_DNSMASQ_CHINA_CONF_UPD);
+	}
+#endif
+	websWrite(wp, "<script>restart_needed_time(%d);</script>\n", needed_seconds);
+	return 0;
+}
+
+static int shadowsocks_status_hook(int eid, webs_t wp, int argc, char **argv)
+{
+	int ss_status_code = pids("ss-redir");
+	websWrite(wp, "function shadowsocks_status() { return %d;}\n", ss_status_code);
+	int ss_tunnel_status_code = pids("ss-local");
+	websWrite(wp, "function shadowsocks_tunnel_status() { return %d;}\n", ss_tunnel_status_code);
+	return 0;
+}
+
+static int rules_count_hook(int eid, webs_t wp, int argc, char **argv)
+{
+	FILE *fstream = NULL;
+	char count[8];
+	memset(count, 0, sizeof(count));
+	fstream = popen("cat /etc/storage/chinadns/chnroute.txt |wc -l","r");
+	if(fstream) {
+		fgets(count, sizeof(count), fstream);
+		pclose(fstream);
+	} else {
+		sprintf(count, "%d", 0);
+	}
+	if (strlen(count) > 0)
+		count[strlen(count) - 1] = 0;
+	websWrite(wp, "function chnroute_count() { return '%s';}\n", count);
+#if defined(APP_DNSMASQ_CHINA_CONF)
+	memset(count, 0, sizeof(count));
+	fstream = popen("cat /etc/storage/dnsmasq-china-conf/accelerated-domains.china.conf |wc -l","r");
+	if(fstream) {
+		fgets(count, sizeof(count), fstream);
+		pclose(fstream);
+	} else {
+		sprintf(count, "%d", 0);
+	}
+	if (strlen(count) > 0)
+		count[strlen(count) - 1] = 0;
+	websWrite(wp, "function dnsmasq_china_conf_count() { return '%s';}\n", count);	
+#endif
+#if defined(APP_SHADOWSOCKS)
+	memset(count, 0, sizeof(count));
+	fstream = popen("grep ^server /etc/storage/gfwlist/dnsmasq_gfwlist.conf |wc -l","r");
+	if(fstream) {
+		fgets(count, sizeof(count), fstream);
+		pclose(fstream);
+	} else {
+		sprintf(count, "%d", 0);
+	}
+	if (strlen(count) > 0)
+		count[strlen(count) - 1] = 0;
+	websWrite(wp, "function gfwlist_count() { return '%s';}\n", count);	
+#endif
+	return 0;
+}
+
+#endif
+
+#if defined(APP_CHINADNS)
+static int chinadns_status_hook(int eid, webs_t wp, int argc, char **argv)
+{
+	int status_code = pids("chinadns");
+	websWrite(wp, "function chinadns_status() { return %d;}\n", status_code);
+	return 0;
+}
+#endif
+
+#if defined(APP_DNSFORWARDER)
+static int dnsforwarder_status_hook(int eid, webs_t wp, int argc, char **argv)
+{
+	int status_code = pids("dns-forwarder");
+	websWrite(wp, "function dnsforwarder_status() { return %d;}\n", status_code);
+	return 0;
+}
+#endif
+
 static int
 ej_detect_internet_hook(int eid, webs_t wp, int argc, char **argv)
 {
@@ -2108,6 +2251,46 @@ ej_firmware_caps_hook(int eid, webs_t wp, int argc, char **argv)
 #else
 	int found_app_sshd = 0;
 #endif
+#if defined(APP_SCUT)
+	int found_app_scutclient = 1;
+#else
+	int found_app_scutclient = 0;
+#endif
+#if defined(APP_TTYD)
+	int found_app_ttyd = 1;
+#else
+	int found_app_ttyd = 0;
+#endif
+#if defined(APP_VLMCSD)
+	int found_app_vlmcsd = 1;
+#else
+	int found_app_vlmcsd = 0;
+#endif
+#if defined(APP_NAPT66)
+	int found_app_napt66 = 1;
+#else
+	int found_app_napt66 = 0;
+#endif
+#if defined(APP_CHINADNS)
+	int found_app_chinadns = 1;
+#else
+	int found_app_chinadns = 0;
+#endif
+#if defined(APP_SHADOWSOCKS)
+	int found_app_shadowsocks = 1;
+#else
+	int found_app_shadowsocks = 0;
+#endif
+#if defined(APP_DNSFORWARDER)
+	int found_app_dnsforwarder = 1;
+#else
+	int found_app_dnsforwarder = 0;
+#endif
+#if defined(APP_DNSMASQ_CHINA_CONF)
+	int found_app_dnsmasq_china_conf = 1;
+#else
+	int found_app_dnsmasq_china_conf = 0;
+#endif
 #if defined(APP_XUPNPD)
 	int found_app_xupnpd = 1;
 #else
@@ -2203,10 +2386,26 @@ ej_firmware_caps_hook(int eid, webs_t wp, int argc, char **argv)
 #else
 	int has_btn_mode = 0;
 #endif
-#if defined (USE_WID_5G) && (USE_WID_5G==7610 || USE_WID_5G==7612) && BOARD_HAS_5G_11AC
+#if defined (USE_WID_5G) && (USE_WID_5G==7610 || USE_WID_5G==7612 || USE_WID_5G==7615) && BOARD_HAS_5G_11AC
 	int has_5g_vht = 1;
 #else
 	int has_5g_vht = 0;
+#endif
+#if defined (USE_WID_5G) && USE_WID_5G==7615 && BOARD_HAS_5G_11AC
+	int has_5g_mumimo = 1;
+	int has_5g_txbf = 1;
+	int has_5g_band_steering = 1;
+#else
+	int has_5g_mumimo = 0;
+	int has_5g_txbf = 0;
+	int has_5g_band_steering = 0;
+#endif
+#if defined (USE_WID_2G) && USE_WID_2G==7615
+	int has_2g_turbo_qam = 1;
+	int has_2g_airtimefairness = 1;
+#else
+	int has_2g_turbo_qam = 0;
+	int has_2g_airtimefairness = 0;
 #endif
 #if defined (USE_WID_2G)
 	int wid_2g = USE_WID_2G;
@@ -2217,6 +2416,16 @@ ej_firmware_caps_hook(int eid, webs_t wp, int argc, char **argv)
 	int wid_5g = USE_WID_5G;
 #else
 	int wid_5g = 0;
+#endif
+#if defined (USE_SFE)
+	int has_sfe = 1;
+#else
+	int has_sfe = 0;
+#endif
+#if defined (BOARD_K2P)
+	int has_lan_ap_isolate = 0;
+#else
+	int has_lan_ap_isolate = 1;
 #endif
 
 	websWrite(wp,
@@ -2241,6 +2450,14 @@ ej_firmware_caps_hook(int eid, webs_t wp, int argc, char **argv)
 		"function found_srv_u2ec() { return %d;}\n"
 		"function found_srv_lprd() { return %d;}\n"
 		"function found_app_sshd() { return %d;}\n"
+		"function found_app_scutclient() { return %d;}\n"
+		"function found_app_ttyd() { return %d;}\n"
+		"function found_app_vlmcsd() { return %d;}\n"
+		"function found_app_napt66() { return %d;}\n"
+		"function found_app_dnsforwarder() { return %d;}\n"
+		"function found_app_chinadns() { return %d;}\n"
+		"function found_app_shadowsocks() { return %d;}\n"
+		"function found_app_dnsmasq_china_conf() { return %d;}\n"
 		"function found_app_xupnpd() { return %d;}\n",
 		found_utl_hdparm,
 		found_app_ovpn,
@@ -2263,6 +2480,14 @@ ej_firmware_caps_hook(int eid, webs_t wp, int argc, char **argv)
 		found_srv_u2ec,
 		found_srv_lprd,
 		found_app_sshd,
+		found_app_scutclient,
+		found_app_ttyd,
+		found_app_vlmcsd,
+		found_app_napt66,
+		found_app_dnsforwarder,
+		found_app_chinadns,
+		found_app_shadowsocks,
+		found_app_dnsmasq_china_conf,
 		found_app_xupnpd
 	);
 
@@ -2293,7 +2518,14 @@ ej_firmware_caps_hook(int eid, webs_t wp, int argc, char **argv)
 		"function support_5g_stream_tx() { return %d;}\n"
 		"function support_5g_stream_rx() { return %d;}\n"
 		"function support_2g_stream_tx() { return %d;}\n"
-		"function support_2g_stream_rx() { return %d;}\n",
+		"function support_2g_stream_rx() { return %d;}\n"
+		"function support_2g_turbo_qam() { return %d;}\n"
+		"function support_2g_airtimefairness() { return %d;}\n"
+		"function support_5g_txbf() { return %d;}\n"
+		"function support_5g_band_steering() { return %d;}\n"
+		"function support_5g_mumimo() { return %d;}\n"
+		"function support_sfe() { return %d;}\n"
+		"function support_lan_ap_isolate() { return %d;}\n",
 		has_ipv6,
 		has_ipv6_ppe,
 		has_ipv4_ppe,
@@ -2320,7 +2552,14 @@ ej_firmware_caps_hook(int eid, webs_t wp, int argc, char **argv)
 		BOARD_NUM_ANT_5G_TX,
 		BOARD_NUM_ANT_5G_RX,
 		BOARD_NUM_ANT_2G_TX,
-		BOARD_NUM_ANT_2G_RX
+		BOARD_NUM_ANT_2G_RX,
+		has_2g_turbo_qam,
+		has_2g_airtimefairness,
+		has_5g_txbf,
+		has_5g_band_steering,
+		has_5g_mumimo,
+		has_sfe,
+		has_lan_ap_isolate
 	);
 
 	return 0;
@@ -3573,6 +3812,11 @@ struct mime_handler mime_handlers[] = {
 #if defined(APP_ARIA)
 	/* cached font */
 	{ "**.woff", "application/font-woff", NULL, NULL, do_file, 0 }, // 2016.01 Volt1
+	{ "**.woff2", "application/font-woff", NULL, NULL, do_file, 0 },
+	{ "**.eot", "application/vnd.ms-fontobject", NULL, NULL, do_file, 0 },
+	{ "**.ttf", "application/octet-stream", NULL, NULL, do_file, 0 },
+	{ "**.txt", "text/plain", NULL, NULL, do_file, 0 },
+	{ "**.manifest", "text/plain", NULL, NULL, do_file, 0 },
 #endif
 
 	/* cached images */
@@ -3880,6 +4124,22 @@ struct ej_handler ej_handlers[] =
 	{ "delete_sharedfolder", ej_delete_sharedfolder},
 	{ "modify_sharedfolder", ej_modify_sharedfolder},
 	{ "set_share_mode", ej_set_share_mode},
+#endif
+#if defined (APP_SCUT)
+	{ "scutclient_action", scutclient_action_hook},
+	{ "scutclient_status", scutclient_status_hook},
+	{ "scutclient_version", scutclient_version_hook},
+#endif
+#if defined (APP_SHADOWSOCKS)
+	{ "shadowsocks_action", shadowsocks_action_hook},
+	{ "shadowsocks_status", shadowsocks_status_hook},
+	{ "rules_count", rules_count_hook},
+#endif
+#if defined (APP_CHINADNS)
+	{ "chinadns_status", chinadns_status_hook},
+#endif
+#if defined (APP_DNSFORWARDER)
+	{ "dnsforwarder_status", dnsforwarder_status_hook},
 #endif
 	{ "openssl_util_hook", openssl_util_hook},
 	{ "openvpn_srv_cert_hook", openvpn_srv_cert_hook},

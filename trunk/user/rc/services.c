@@ -233,6 +233,165 @@ restart_sshd(void)
 }
 #endif
 
+#if defined(APP_SCUT)
+int is_scutclient_run(void)
+{
+	if(pids("bin_scutclient"))
+		return 1;
+	return 0;
+}
+void stop_scutclient(void)
+{
+	eval("/usr/bin/scutclient.sh","stop");
+}
+
+void start_scutclient(void)
+{
+	int scutclient_mode = nvram_get_int("scutclient_enable");
+	if (scutclient_mode == 1)
+		eval("/usr/bin/scutclient.sh","start");
+}
+
+void restart_scutclient(void)
+{
+	stop_scutclient();
+	start_scutclient();
+}
+
+#endif
+
+#if defined(APP_TTYD)
+void stop_ttyd(void){
+	eval("/usr/bin/ttyd.sh","stop");
+}
+
+void start_ttyd(void){
+	int ttyd_mode = nvram_get_int("ttyd_enable");
+	if ( ttyd_mode == 1)
+		eval("/usr/bin/ttyd.sh","start");
+}
+
+void restart_ttyd(void){
+	stop_ttyd();
+	start_ttyd();
+}
+#endif
+
+#if defined(APP_SHADOWSOCKS)
+void stop_ss(void){
+	eval("/usr/bin/shadowsocks.sh","stop");
+}
+
+void start_ss(void){
+	int ss_enable = nvram_get_int("ss_enable");
+	if ( ss_enable == 1)
+		eval("/usr/bin/shadowsocks.sh","start");
+}
+
+void restart_ss(void){
+	stop_ss();
+	start_ss();
+}
+
+void stop_ss_tunnel(void){
+	eval("/usr/bin/ss-tunnel.sh","stop");
+}
+
+void start_ss_tunnel(void){
+	int ss_tunnel_mode = nvram_get_int("ss-tunnel_enable");
+	if ( ss_tunnel_mode == 1)
+		eval("/usr/bin/ss-tunnel.sh","start");
+}
+
+void restart_ss_tunnel(void){
+	stop_ss_tunnel();
+	start_ss_tunnel();
+}
+
+void update_chnroute(void){
+	eval("/bin/sh","-c","/usr/bin/update_chnroute.sh force &");
+}
+
+void update_gfwlist(void){
+	eval("/bin/sh","-c","/usr/bin/update_gfwlist.sh force &");
+}
+
+#endif
+
+#if defined(APP_VLMCSD)
+void stop_vlmcsd(void){
+	eval("/usr/bin/vlmcsd.sh","stop");
+}
+
+void start_vlmcsd(void){
+	int vlmcsd_mode = nvram_get_int("vlmcsd_enable");
+	if ( vlmcsd_mode == 1)
+		eval("/usr/bin/vlmcsd.sh","start");
+}
+
+void restart_vlmcsd(void){
+	stop_vlmcsd();
+	start_vlmcsd();
+}
+#endif
+
+#if defined(APP_CHINADNS)
+void stop_chinadns(void){
+	eval("/usr/bin/chinadns.sh","stop");
+}
+
+void start_chinadns(void){
+	int chinadns_mode = nvram_get_int("chinadns_enable");
+	if (chinadns_mode == 1)
+		eval("/usr/bin/chinadns.sh","start");
+}
+
+void restart_chinadns(void){
+	stop_chinadns();
+	start_chinadns();
+}
+#endif
+
+#if defined(APP_DNSFORWARDER)
+void stop_dnsforwarder(void){
+	eval("/usr/bin/dns-forwarder.sh","stop");
+}
+
+void start_dnsforwarder(void){
+	int dnsforwarder_mode = nvram_get_int("dns_forwarder_enable");
+	if (dnsforwarder_mode == 1)
+		eval("usr/bin/dns-forwarder.sh","start");
+}
+
+void restart_dnsforwarder(void){
+	stop_dnsforwarder();
+	start_dnsforwarder();
+}
+#endif
+
+#if defined(APP_NAPT66)
+void start_napt66(void){
+	int napt66_mode = nvram_get_int("napt66_enable");
+	char *wan6_ifname = nvram_get("wan0_ifname6");
+	if (napt66_mode == 1) {
+		if (wan6_ifname) {
+			char napt66_para[32];
+			logmessage("napt66","wan6 ifname: %s",wan6_ifname);
+			snprintf(napt66_para,sizeof(napt66_para),"wan_if=%s",wan6_ifname);
+			module_smart_load("napt66", napt66_para);
+		}
+		else
+			logmessage("napt66","Invalid wan6 ifname!");
+	}
+}
+#endif
+
+#if defined(APP_DNSMASQ_CHINA_CONF)
+void update_dnsmasq_china_conf(void){
+	eval("sh","-c","/usr/bin/update_dnsmasq_china_conf.sh force &");
+}
+#endif
+
 void
 start_httpd(int restart_fw)
 {
@@ -431,6 +590,25 @@ start_services_once(int is_ap_mode)
 #endif
 	}
 
+#if defined(APP_SCUT)
+	start_scutclient();
+#endif
+#if defined(APP_DNSFORWARDER)
+	start_dnsforwarder();
+#endif
+#if defined(APP_CHINADNS)
+	start_chinadns();
+#endif
+#if defined(APP_SHADOWSOCKS)
+	start_ss();
+	start_ss_tunnel();
+#endif
+#if defined(APP_TTYD)
+	start_ttyd();
+#endif
+#if defined(APP_VLMCSD)
+	start_vlmcsd();
+#endif
 	start_lltd();
 	start_watchdog_cpu();
 	start_crond();
@@ -459,6 +637,12 @@ stop_services(int stopall)
 #if defined (SRV_U2EC)
 	stop_u2ec();
 #endif
+#endif
+#if defined(APP_SCUT)
+	stop_scutclient();
+#endif
+#if defined(APP_TTYD)
+	stop_ttyd();
 #endif
 	stop_networkmap();
 	stop_lltd();

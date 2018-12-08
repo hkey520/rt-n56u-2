@@ -23,3 +23,8 @@ alias ll='ls --color=auto -lAhFe'
 alias l='/bin/ls -la'
 alias ll='ls -la'
 
+alias df='df -Th'
+alias ps='ps ww'
+alias ls='ls -hF --color=auto'
+alias lll='ls -AlhF --color=auto'
+alias htop='htop -t'

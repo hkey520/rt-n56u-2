@@ -45,7 +45,7 @@ struct nvram_pair router_defaults[] = {
 	{ "lan_dns_x", "1" },			/* LAN DNS [static|dhcp] */
 	{ "lan_dns1", "" },			/* LAN DNS1 */
 	{ "lan_dns2", "" },			/* LAN DNS2 */
-	{ "lan_domain", "" },			/* LAN domain name */
+	{ "lan_domain", "lan" },		/* LAN domain name */
 	{ "lan_stp", "1" },			/* LAN spanning tree protocol */
 
 	/* WAN H/W parameters */
@@ -160,7 +160,7 @@ struct nvram_pair router_defaults[] = {
 	{ "wl_closed", "0" },			/* Closed (hidden) network */
 	{ "wl_macmode", "disabled" },		/* "allow" only, "deny" only, or "disabled"(allow all) */
 	{ "wl_maclist", "" },			/* xx:xx:xx:xx:xx:xx ... */
-	{ "wl_wme", "1" },			/* WME mode (off|on) */
+	{ "wl_wme", "0" },			/* WME mode (off|on) */
 	{ "wl_wme_no_ack", "off" },		/* WME No-Acknowledgment mode */
 	{ "wl_auth_mode", "psk" },		/* Network authentication mode: WPAx Personal */
 	{ "wl_key", "1" },			/* Current WEP key */
@@ -181,14 +181,14 @@ struct nvram_pair router_defaults[] = {
 	{ "wl_TxPower", "100" },
 	{ "wl_TxBurst", "1" },
 	{ "wl_PktAggregate", "1" },
-	{ "wl_APSDCapable", "1" },
+	{ "wl_APSDCapable", "0" },
 	{ "wl_HT_OpMode", "0" },
 #if BOARD_HAS_5G_11AC
 	{ "wl_HT_BW", "2" },
 #else
 	{ "wl_HT_BW", "1" },
 #endif
-	{ "wl_txbf", "0" },
+	{ "wl_txbf", "1" },
 	{ "wl_ssid2",  DEF_WLAN_5G_SSID },
 	{ "wl_mode_x", "0" },
 	{ "wl_wdsapply_x", "0" },
@@ -230,6 +230,11 @@ struct nvram_pair router_defaults[] = {
 	{ "wl_guest_macrule", "0" },
 	{ "wl_guest_mcs_mode", "0" },
 
+#if defined(USE_MT7615_AP)
+	{ "wl_band_steering", "0" },
+	{ "wl_mumimo", "1" },
+#endif
+
 	// ApCli 5Ghz
 	{ "wl_sta_ssid", "" },
 	{ "wl_sta_auth_mode", "open" },
@@ -259,13 +264,13 @@ struct nvram_pair router_defaults[] = {
 	{ "rt_HT_BW", "1" },
 	{ "rt_HT_EXTCHA", "1" },
 	{ "rt_HT_OpMode", "0" },
-	{ "rt_wme", "1" },
+	{ "rt_wme", "0" },
 	{ "rt_wme_no_ack", "off" },
 	{ "rt_IgmpSnEnable", "1" },
 	{ "rt_TxPower", "100" },
 	{ "rt_TxBurst", "1" },
 	{ "rt_PktAggregate", "1" },
-	{ "rt_APSDCapable", "1" },
+	{ "rt_APSDCapable", "0" },
 	{ "rt_auth_mode", "psk" },
 	{ "rt_crypto", "aes" },
 	{ "rt_wpa_psk", DEF_WLAN_2G_PSK },
@@ -321,6 +326,11 @@ struct nvram_pair router_defaults[] = {
 	{ "rt_guest_macrule", "0" },
 	{ "rt_guest_mcs_mode", "0" },
 
+#if defined(USE_MT7615_AP)
+	{ "rt_turbo_qam", "1" },
+	{ "rt_airtimefairness", "0" },
+#endif
+
 	// ApCli 2.4Ghz
 	{ "rt_sta_ssid", "" },
 	{ "rt_sta_auth_mode", "open" },
@@ -333,8 +343,8 @@ struct nvram_pair router_defaults[] = {
 	// USB related
 	{ "acc_num", "0" },
 	{ "enable_ftp", "0" },
-	{ "enable_samba", "1" },
-	{ "st_samba_fp", "1" },
+	{ "enable_samba", "0" },
+	{ "st_samba_fp", "0" },
 	{ "st_samba_mode", "1" },
 	{ "st_samba_lmb", "1" },
 	{ "st_samba_workgroup", DEF_SMB_WORKGROUP },
@@ -352,8 +362,8 @@ struct nvram_pair router_defaults[] = {
 	{ "usb3_disable", "0" },
 	{ "u2ec_enable", "1" },
 	{ "lprd_enable", "1" },
-	{ "rawd_enable", "1" },
-	{ "achk_enable", "0" },
+	{ "rawd_enable", "0" },
+	{ "achk_enable", "1" },
 	{ "nfsd_enable", "0" },
 	{ "optw_enable", "0" },
 	{ "dlna_disc", "895" },
@@ -524,7 +534,76 @@ struct nvram_pair router_defaults[] = {
 	{ "dr_staticipaddr_x", "" },
 	{ "dr_staticnetmask_x", "0" },
 	{ "dr_staticgateway_x", "" },
+	
+	/* scutclient related */
+	{ "scutclient_enable", "0" },
+	{ "scutclient_debug", "0" },
+	{ "scutclient_hostname", "Lenovo-PC" },
+	{ "scutclient_server_auth_ip", "202.38.210.131" },
+	{ "scutclient_version", "4472434f4d0096022a" },
+	{ "scutclient_hash", "2ec15ad258aee9604b18f2f8114da38db16efd00" },
+	{ "scutclient_done", "0" },
+	{ "scutclient_username", "" },
+	{ "scutclient_password", "" },
+	{ "scutclient_watchcat", "1" },
+	{ "scutclient_auth_exec", "echo 0 > /tmp/scutclient_status" },
+	{ "scutclient_fail_exec", "echo 1 > /tmp/scutclient_status" },
 
+	/* ttyd related */
+	{ "ttyd_enable", "0" },
+	{ "ttyd_port", "7681" },
+
+	/* NAPT66 */
+	{ "napt66_enable", "0" },
+	
+	/* vlmcsd */
+	{ "vlmcsd_enable", "0" },
+	
+	/* chinadns */
+	{ "chinadns_enable", "0" },
+	{ "chinadns_bind", "0.0.0.0" },
+	{ "chinadns_port", "5302" },
+	{ "chinadns_server", "114.114.114.114,127.0.0.1#5301" },
+	{ "chinadns_bi_filter", "1" },
+
+	/* dns-forwarder */
+	{ "dns_forwarder_enable", "0" },
+	{ "dns_forwarder_port", "5353" },
+	{ "dns_forwarder_bind", "0.0.0.0" },
+	{ "dns_forwarder_server", "8.8.4.4:53" },
+	
+	/* shadowsocks */
+	{ "ss_type", "0" }, //0=ss, 1=ssr
+	{ "ss_enable", "0" },
+	{ "ss_mode", "1" }, 	//0=全局代理,1=绕过大陆,2=gfwlist
+	{ "ss_server", "127.0.0.1" },
+	{ "ss_server_port", "8989" },
+	{ "ss_key", "Secret" },
+	{ "ss_method", "rc4-md5" },
+	{ "ss_udp", "0" },
+	{ "ss_local_port", "1080" },
+	{ "ss_mtu", "1492" },
+	{ "ss_router_proxy", "1" },
+	{ "ss_lower_port_only", "1" },		//1:22-1023;2:53,80,443
+	{ "ss_timeout", "60"},
+	{ "ss_protocol", "origin"},
+	{ "ss_proto_param", ""},
+	{ "ss_obfs", "plain"},
+	{ "ss_obfs_param", ""},
+
+	{ "ss-tunnel_enable", "0" },
+	{ "ss-tunnel_local_port", "5301" },
+	{ "ss-tunnel_remote", "8.8.4.4:53" },
+	{ "ss-tunnel_mtu", "1492" },
+	
+	{ "ss_watchcat", "1" },
+	{ "ss_update_chnroute", "0" },
+	{ "ss_update_gfwlist", "0" },
+	
+	/* dnsmasq-china-conf */
+	{ "dnsmasq_china_conf_update", "0" },
+	{ "dnsmasq_china_conf_dns_server", "114.114.114.114" },
+	
 	/* DHCP server parameters */
 	{ "dhcp_start", DEF_LAN_DHCP_BEG },	/* First assignable DHCP address */
 	{ "dhcp_end", DEF_LAN_DHCP_END },	/* Last assignable DHCP address */
@@ -541,7 +620,7 @@ struct nvram_pair router_defaults[] = {
 	{ "dhcp_staticnum_x", "0" },
 
 	/* NTP client parameters */
-	{ "ntp_period", "24" },
+	{ "ntp_period", "6" },
 	{ "ntp_server0", DEF_NTP_SERVER0 },
 	{ "ntp_server1", DEF_NTP_SERVER1 },
 
@@ -569,7 +648,7 @@ struct nvram_pair router_defaults[] = {
 	{ "ddns2_ssl", "1" },
 	{ "asusddns_tos_agreement", "0" },
 
-	{ "preferred_lang", "" },
+	{ "preferred_lang", "CN" },
 
 	{ "modem_rule", "0" },
 	{ "modem_prio", "1" },
@@ -606,21 +685,21 @@ struct nvram_pair router_defaults[] = {
 	{ "controlrate_broadcast", "10" },
 
 	{ "di_poll_mode", "0" },
-	{ "di_timeout", "3" },
-	{ "di_time_done", "55" },
+	{ "di_timeout", "2" },
+	{ "di_time_done", "30" },
 	{ "di_time_fail", "5" },
-	{ "di_lost_delay", "10" },
+	{ "di_lost_delay", "1" },
 	{ "di_lost_action", "0" },
 	{ "di_recon_pause", "0" },
-	{ "di_addr0", "77.88.8.8" },
-	{ "di_addr1", "8.8.8.8" },
-	{ "di_addr2", "208.67.222.222" },
-	{ "di_addr3", "77.88.8.1" },
+	{ "di_addr0", "114.114.114.114" },
+	{ "di_addr1", "208.67.222.222" },
+	{ "di_addr2", "14.17.42.40" },
+	{ "di_addr3", "8.8.8.8" },
 	{ "di_addr4", "8.8.4.4" },
 	{ "di_addr5", "208.67.220.220" },
 	{ "di_port0", "53" },
 	{ "di_port1", "53" },
-	{ "di_port2", "53" },
+	{ "di_port2", "80" },
 	{ "di_port3", "53" },
 	{ "di_port4", "53" },
 	{ "di_port5", "53" },
@@ -638,7 +717,7 @@ struct nvram_pair router_defaults[] = {
 	{ "wins_enable", "0" },
 	{ "lltd_enable", "1" },
 	{ "adsc_enable", "1" },
-	{ "crond_enable", "0" },
+	{ "crond_enable", "1" },
 	{ "crond_log", "0" },
 
 #if defined(BOARD_N65U)
@@ -664,7 +743,7 @@ struct nvram_pair router_defaults[] = {
 	{ "watchdog_cpu", "1" },
 	{ "front_led_all", "1" },
 	{ "front_led_wan", "2" },
-	{ "front_led_lan", "1" },
+	{ "front_led_lan", "2" },
 	{ "front_led_wif", "1" },
 	{ "front_led_usb", "1" },
 	{ "front_led_pwr", "1" },
@@ -710,9 +789,10 @@ struct nvram_pair router_defaults[] = {
 #if defined(CONFIG_RALINK_MT7621) || (defined(CONFIG_RALINK_MT7620) && !defined(BOARD_N14U))
 	{ "hw_nat_mode", "4" },
 #else
-	{ "hw_nat_mode", "1" },
+	{ "hw_nat_mode", "4" },
 #endif
 	{ "sw_nat_mode", "0" },
+	{ "sfe_enable", "0" },
 	{ "fw_syn_cook", "0" },
 	{ "fw_mac_drop", "0" },
 	{ "nf_nat_type", "2" },

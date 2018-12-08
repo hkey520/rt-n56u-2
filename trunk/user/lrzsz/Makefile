@@ -1,9 +1,19 @@
-SRC_NAME=lrzsz-0.12.20
-
+SRC_NAME = lrzsz-0.12.20
+SRC_URL = https://ohse.de/uwe/releases/lrzsz-0.12.20.tar.gz
 THISDIR = $(shell pwd)
 
-all: config_test
+all: download_test extract_test config_test
 	$(MAKE) -C $(SRC_NAME)
+
+download_test:
+	( if [ ! -f $(THISDIR)/$(SRC_NAME).tar.gz ]; then \
+		wget -t5 --timeout=20 --no-check-certificate -O $(SRC_NAME).tar.gz $(SRC_URL); \
+	fi )
+
+extract_test:
+	( if [ ! -d $(THISDIR)/$(SRC_NAME) ]; then \
+		tar zxf $(SRC_NAME).tar.gz; \
+	fi )
 
 config_test:
 	( if [ -f ./config_done ]; then \
@@ -22,6 +32,7 @@ configure:
 		--with-os-name="Linux" \
 		--with-os-version="Linux/Cross_compiled" \
 		--with-os-url="http://www.kernel.org/" \
+		--disable-nls \
 		--host=$(HOST_TARGET) \
 		--build=$(HOST_BUILD) ; \
 	)
@@ -33,8 +44,8 @@ clean:
 	rm -f config_done
 
 romfs:
-	$(ROMFSINST) $(THISDIR)/$(SRC_NAME)/src/lrz /usr/bin/lrz
-	$(ROMFSINST) $(THISDIR)/$(SRC_NAME)/src/lsz /usr/bin/lsz
+	$(ROMFSINST) -p +x $(THISDIR)/$(SRC_NAME)/src/lrz /usr/bin/lrz
+	$(ROMFSINST) -p +x $(THISDIR)/$(SRC_NAME)/src/lsz /usr/bin/lsz
 	$(ROMFSINST) -s /usr/bin/lsz /usr/bin/sz
 	$(ROMFSINST) -s /usr/bin/lrz /usr/bin/rz
 

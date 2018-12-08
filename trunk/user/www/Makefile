@@ -206,6 +206,22 @@ ifneq ($(CONFIG_FIRMWARE_INCLUDE_NGROK),y)
 	sed "s/ngrok.asp/Advanced_dnsq.asp/g" -i $(ROMFS_DIR)/www/state.js
 #	sed "s/, \"ngrok.asp\"//g" -i $(ROMFS_DIR)/www/state.js
 #	sed "s/, \"<#menu5_13_8#>\"//g" -i $(ROMFS_DIR)/www/state.js
+
+ifneq ($(CONFIG_FIRMWARE_INCLUDE_SCUTCLIENT),y)
+	rm -f $(INSTALLDIR)/www/scutclient.asp
+	rm -f $(INSTALLDIR)/www/scutclient_log.asp
+	rm -f $(INSTALLDIR)/www/scutclient_action.asp
+endif
+ifneq ($(CONFIG_FIRMWARE_INCLUDE_DNSFORWARDER),y)
+	rm -f $(INSTALLDIR)/www/dns-forwarder.asp
+endif
+ifneq ($(CONFIG_FIRMWARE_INCLUDE_CHINADNS),y)
+	rm -f $(INSTALLDIR)/www/Chinadns.asp
+endif
+ifneq ($(CONFIG_FIRMWARE_INCLUDE_SHADOWSOCKS),y)
+	rm -f $(INSTALLDIR)/www/Shadowsocks.asp
+	rm -f $(INSTALLDIR)/www/Shadowsocks_action.asp
+	rm -f $(INSTALLDIR)/www/Shadowsocks_log.asp
 endif
 
 clean:

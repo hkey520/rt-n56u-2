@@ -3,7 +3,7 @@
 #######################################################################
 # (1) run process from superuser root (less security)
 # (0) run process from unprivileged user "nobody" (more security)
-SVC_ROOT=1
+SVC_ROOT=0
 
 # process priority (0-normal, 19-lowest)
 SVC_PRIORITY=3
@@ -73,12 +73,20 @@ dir=$DIR_DL1
 # 预分配所需时间: none < falloc ? trunc < prealloc
 # falloc和trunc则需要文件系统和内核支持
 # NTFS建议使用falloc, EXT3/4建议trunc, MAC 下需要注释此项
-file-allocation=none
+### File
+# file-allocation=none
+file-allocation=trunc
+#file-allocation=falloc
+#file-allocation=none
+no-file-allocation-limit=10M
+allow-overwrite=false
+auto-file-renaming=true
+
 # 断点续传
 continue=true
 ## 下载连接相关 ##
 # 最大同时下载任务数, 运行时可修改, 默认:5
-max-concurrent-downloads=1
+max-concurrent-downloads=3
 # 同一服务器连接数, 添加时可指定, 默认:1
 max-connection-per-server=5
 # 最小文件分片大小, 添加时可指定, 取值范围1M -1024M, 默认:20M
@@ -153,13 +161,48 @@ seed-ratio=0
 bt-seed-unverified=true
 # 保存磁力链接元数据为种子文件(.torrent文件), 默认:false
 bt-save-metadata=true
+
+### XML-RPC
+# rpc-listen-all=true
+# rpc-allow-origin-all=true
+#rpc-secret=
+#rpc-user=$aria_user
+#rpc-passwd=$aria_pass
+
+### Common
+max-download-limit=0
+max-overall-download-limit=0
+
+
+### Bittorent
+bt-enable-lpd=false
+#bt-lpd-interface=eth2.2
+bt-max-peers=50
+bt-max-open-files=100
+bt-request-peer-speed-limit=100K
+bt-stop-timeout=0
+enable-dht=true
+#enable-dht6=false
+enable-peer-exchange=true
+seed-ratio=1.5
+#seed-time=60
+max-upload-limit=0
+max-overall-upload-limit=0
+
+### FTP/HTTP
+ftp-pasv=true
+ftp-type=binary
+timeout=120
+connect-timeout=60
+check-certificate=false
+
 ### Log
 log=$DIR_CFG/aria2.log
 log-level=notice
 
 EOF
 	fi
-
+:<<!
 	if [ ! -f "$FILE_WEB_CONF" ] ; then
 		cat > "$FILE_WEB_CONF" <<EOF
 angular
@@ -205,7 +248,7 @@ EOF
 		[ "$old_host" != "$lan_ipaddr" ] && sed -i "s/\(host:\).*/\1\ \'$lan_ipaddr\'\,/" $FILE_WEB_CONF
 		[ "$old_port" != "$aria_rport" ] && sed -i "s/\(port:\).*/\1\ \'$aria_rport\'\,/" $FILE_WEB_CONF
 	fi
-
+!
 	# aria2 needed home dir
 	export HOME="$DIR_CFG"
 

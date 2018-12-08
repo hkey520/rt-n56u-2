@@ -195,6 +195,9 @@ func_fill()
 	dir_inadyn="$dir_storage/inadyn"
 	dir_crond="$dir_storage/cron/crontabs"
 	dir_wlan="$dir_storage/wlan"
+	dir_chnroute="$dir_storage/chinadns"
+	dir_dnsmasq_china_conf="$dir_storage/dnsmasq-china-conf"
+	dir_gfwlist="$dir_storage/gfwlist"
 
 	script_start="$dir_storage/start_script.sh"
 	script_started="$dir_storage/started_script.sh"
@@ -216,12 +219,37 @@ func_fill()
 	user_sswan_conf="$dir_sswan/strongswan.conf"
 	user_sswan_ipsec_conf="$dir_sswan/ipsec.conf"
 	user_sswan_secrets="$dir_sswan/ipsec.secrets"
+	
+	chnroute_file="/etc_ro/chnroute.bz2"
+	dnsmasq_china_conf_file="/etc_ro/dnsmasq-china-conf/dnsmasq-china-conf.bz2"
+	gfwlist_conf_file="/etc_ro/gfwlist.bz2"
 
 	# create crond dir
 	[ ! -d "$dir_crond" ] && mkdir -p -m 730 "$dir_crond"
 
 	# create https dir
 	[ ! -d "$dir_httpssl" ] && mkdir -p -m 700 "$dir_httpssl"
+
+	# create chnroute.txt
+	if [ ! -d "$dir_chnroute" ] ; then
+		if [ -f "$chnroute_file" ]; then
+			mkdir -p "$dir_chnroute" && tar jxf "$chnroute_file" -C "$dir_chnroute"
+		fi
+	fi
+
+	# create dnsmasq-china-conf
+	if [ ! -d "$dir_dnsmasq_china_conf" ] ; then
+		if [ -f "$dnsmasq_china_conf_file" ]; then	
+			mkdir -p "$dir_dnsmasq_china_conf" && tar jxf "$dnsmasq_china_conf_file" -C "$dir_dnsmasq_china_conf"
+		fi
+	fi
+
+	# create gfwlist
+	if [ ! -d "$dir_gfwlist" ] ; then
+		if [ -f "$gfwlist_conf_file" ]; then	
+			mkdir -p "$dir_gfwlist" && tar jxf "$gfwlist_conf_file" -C "$dir_gfwlist"
+		fi
+	fi
 
 	# create start script
 	if [ ! -f "$script_start" ] ; then
@@ -290,6 +318,7 @@ EOF
 	fi
 
 	# create post-iptables script
+
 	if [ ! -f "$script_postf" ] ; then
 		cat > "$script_postf" <<EOF
 #!/bin/sh
@@ -479,7 +508,43 @@ dhcp-option=252,"\n"
 ### Set the boot filename for netboot/PXE
 #dhcp-boot=pxelinux.0
 
+### Log for all queries
+#log-queries
+
 EOF
+	if [ -f /usr/bin/vlmcsd ]; then
+		cat >> "$user_dnsmasq_conf" <<EOF
+### vlmcsd related
+srv-host=_vlmcs._tcp,my.router,1688,0,100
+
+EOF
+	fi
+	if [ -f /usr/bin/chinadns ]; then
+		cat >> "$user_dnsmasq_conf" <<EOF
+### ChinaDNS related
+#no-resolv
+#server=127.0.0.1#5302
+
+EOF
+	fi
+	if [ -d /etc_ro/dnsmasq-china-conf ]; then
+		cat >> "$user_dnsmasq_conf" <<EOF
+### dnsmasq-china-list related
+#no-resolv
+#conf-dir=/etc/storage/dnsmasq-china-conf
+#server=127.0.0.1#5301
+
+EOF
+	fi
+
+	if [ -d $dir_gfwlist ]; then
+		cat >> "$user_dnsmasq_conf" <<EOF
+### gfwlist related (resolve by port 5353)
+#min-cache-ttl=3600
+#conf-dir=/etc/storage/gfwlist
+
+EOF
+	fi
 		chmod 644 "$user_dnsmasq_conf"
 	fi
 

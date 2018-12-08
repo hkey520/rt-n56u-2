@@ -30,6 +30,18 @@ if [ "$CONFIG_FIRMWARE_INCLUDE_IPSET" = "y" ] ; then
 	cp -f "$ipset_dir/ipset/"*.ko "${INSTALL_MOD_PATH}/lib/modules/${KERNELRELEASE}/kernel/net/netfilter/ipset"
 fi
 
+if [ "$CONFIG_FIRMWARE_INCLUDE_NAPT66" = "y" ] ; then
+	napt66_dir="${ROOTDIR}/user/napt66/napt66-v1.1"
+	mkdir -p "${INSTALL_MOD_PATH}/lib/modules/${KERNELRELEASE}/kernel/napt66"
+	cp -f "$napt66_dir/napt66.ko" "${INSTALL_MOD_PATH}/lib/modules/${KERNELRELEASE}/kernel/napt66"
+fi
+
+if [ "$CONFIG_FIRMWARE_INCLUDE_SFE" = "y" ] ; then
+	sfe_dir="${ROOTDIR}/user/shortcut-fe/shortcut-fe"
+	mkdir -p "${INSTALL_MOD_PATH}/lib/modules/${KERNELRELEASE}/kernel/sfe"
+	cp -f "$sfe_dir/"*.ko "${INSTALL_MOD_PATH}/lib/modules/${KERNELRELEASE}/kernel/sfe"
+fi
+
 # call depmod
 sudo $depmod_bin -ae -F System.map -b "${INSTALL_MOD_PATH}" -r ${KERNELRELEASE}
 

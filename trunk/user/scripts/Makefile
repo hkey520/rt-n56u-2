@@ -25,3 +25,4 @@ endif
 	$(ROMFSINST) /etc_ro/banner
 	mkdir -p $(INSTALLDIR)/usr/share/terminfo
 	tar -xzf ./terminfo.tar.gz -C $(INSTALLDIR)/usr/share
+	$(ROMFSINST) /sbin/check_crontab.sh

@@ -29,8 +29,10 @@ $j(document).ready(function() {
 	init_itoggle('lltd_enable');
 	init_itoggle('adsc_enable');
 	init_itoggle('crond_enable', change_crond_enabled);
+	init_itoggle('ttyd_enable', change_ttyd_enabled);
+	init_itoggle('vlmcsd_enable');
+	init_itoggle('napt66_enable');
 	init_itoggle('watchdog_cpu');
-	
 });
 
 </script>
@@ -38,6 +40,10 @@ $j(document).ready(function() {
 
 <% login_state_hook(); %>
 <% openssl_util_hook(); %>
+var lan_ipaddr = '<% nvram_get_x("", "lan_ipaddr_t"); %>';
+var http_proto = '<% nvram_get_x("", "http_proto"); %>';
+var http_port = '<% nvram_get_x("", "http_lanport"); %>';
+var https_port = '<% nvram_get_x("", "https_lport"); %>';
 
 function initial(){
 	show_banner(1);
@@ -68,6 +74,19 @@ function initial(){
 		http_proto_change();
 	}
 	change_crond_enabled();
+	
+	if(found_app_ttyd()){	
+		$("tbl_ttyd").style.display = "";
+		change_ttyd_enabled();
+	}
+	
+	if(!found_app_vlmcsd()){
+		showhide_div('div_vlmcsd', 0);
+	}
+	
+	if(!found_app_napt66()){
+		showhide_div('div_napt66', 0);
+	}
 }
 
 function applyRule(){
@@ -223,6 +242,27 @@ function change_crond_enabled(){
 	if (!login_safe())
 		v = 0;
 	textarea_crond_enabled(v);
+}
+
+function change_ttyd_enabled(){
+	var v = document.form.ttyd_enable[0].checked;
+	showhide_div('ttyd_webui', v);
+	showhide_div('ttyd_port', v);
+}
+
+function on_ttyd_link(){
+	var ttyd_url="http";
+	var http_url=lan_ipaddr;
+	if (http_proto=='1'){
+		aria_url+="s";
+		if (https_port!='443')
+			http_url+=":"+https_port;
+	}else if (http_port!='80'){
+		http_url+=":"+http_port;
+	}
+	ttyd_url+="://"+http_url+":"+"<% nvram_get_x("","ttyd_port"); %>";
+	window_ttyd = window.open(ttyd_url, "ttyd");
+	window_ttyd.focus();
 }
 </script>
 <style>
@@ -464,10 +504,71 @@ function change_crond_enabled(){
                                         </tr>
                                     </table>
 
+                                    <table width="100%" id="tbl_ttyd" cellpadding="4" cellspacing="0" class="table" style="display:none;">
+                                        <tr>
+                                            <th colspan="2" style="background-color: #E3E3E3;"><#Adm_Svc_ttyd_setup#></th>
+                                        </tr>
+                                        <tr id="div_ttyd">
+                                            <th width="50%"><#Adm_Svc_ttyd_enable#></th>
+                                            <td colspan="2">
+                                                <div class="main_itoggle">
+                                                    <div id="ttyd_enable_on_of">
+                                                        <input type="checkbox" id="ttyd_enable_fake" <% nvram_match_x("", "ttyd_enable", "1", "value=1 checked"); %><% nvram_match_x("", "ttyd_enable", "0", "value=0"); %>>
+                                                    </div>
+                                                </div>
+                                                <div style="position: absolute; margin-left: -10000px;">
+                                                    <input type="radio" name="ttyd_enable" id="ttyd_enable_1" class="input" value="1" onclick="change_ttyd_enabled();" <% nvram_match_x("", "ttyd_enable", "1", "checked"); %>/><#checkbox_Yes#>
+                                                    <input type="radio" name="ttyd_enable" id="ttyd_enable_0" class="input" value="0" onclick="change_ttyd_enabled();" <% nvram_match_x("", "ttyd_enable", "0", "checked"); %>/><#checkbox_No#>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr id="ttyd_port"> <th width="50%"><#Adm_Svc_ttyd_port#></th>
+                                            <td>
+                                                <input type="text" maxlength="6" class="input" size="15" name="ttyd_port" style="width: 145px" value="<% nvram_get_x("","ttyd_port"); %>" />
+                                            </td>
+                                        </tr>
+                                        <tr id="ttyd_webui">
+                                            <td>
+                                                <a href="javascript:on_ttyd_link();" id="web_ttyd_link">ttyd Web Shell</a>
+                                            </td>
+                                        </tr>
+                                    </table>
+
                                     <table width="100%" cellpadding="4" cellspacing="0" class="table">
                                         <tr>
                                             <th colspan="2" style="background-color: #E3E3E3;"><#Adm_System_misc#></th>
                                         </tr>
+										
+                                        <tr id="div_vlmcsd">
+                                            <th><#Adm_Svc_vlmcsd#></th>
+                                            <td>
+                                                <div class="main_itoggle">
+                                                    <div id="vlmcsd_enable_on_of">
+                                                        <input type="checkbox" id="vlmcsd_enable_fake" <% nvram_match_x("", "vlmcsd_enable", "1", "value=1 checked"); %><% nvram_match_x("", "vlmcsd_enable", "0", "value=0"); %>>
+                                                    </div>
+                                                </div>
+                                                <div style="position: absolute; margin-left: -10000px;">
+                                                    <input type="radio" name="vlmcsd_enable" id="vlmcsd_enable_1" class="input" value="1" <% nvram_match_x("", "vlmcsd_enable", "1", "checked"); %>/><#checkbox_Yes#>
+                                                    <input type="radio" name="vlmcsd_enable" id="vlmcsd_enable_0" class="input" value="0" <% nvram_match_x("", "vlmcsd_enable", "0", "checked"); %>/><#checkbox_No#>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                        <tr id="div_napt66">
+                                            <th><#Adm_Svc_napt66#></th>
+                                            <td>
+                                                <div class="main_itoggle">
+                                                    <div id="napt66_enable_on_of">
+                                                        <input type="checkbox" id="napt66_enable_fake" <% nvram_match_x("", "napt66_enable", "1", "value=1 checked"); %><% nvram_match_x("", "napt66_enable", "0", "value=0"); %>>
+                                                    </div>
+                                                </div>
+                                                <div style="position: absolute; margin-left: -10000px;">
+                                                    <input type="radio" name="napt66_enable" id="napt66_enable_1" class="input" value="1" <% nvram_match_x("", "napt66_enable", "1", "checked"); %>/><#checkbox_Yes#>
+                                                    <input type="radio" name="napt66_enable" id="napt66_enable_0" class="input" value="0" <% nvram_match_x("", "napt66_enable", "0", "checked"); %>/><#checkbox_No#>
+                                                </div>
+                                            </td>
+                                        </tr>
+
                                         <tr>
                                             <th><#Adm_Svc_lltd#></th>
                                             <td>

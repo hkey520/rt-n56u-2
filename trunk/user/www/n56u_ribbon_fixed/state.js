@@ -372,7 +372,8 @@ function show_banner(L3){
 	show_top_status();
 }
 
-var tabtitle = new Array(10);
+var tabtitle = new Array(15);
+var tablink = new Array(15);
 tabtitle[0] = new Array("", "<#menu5_1_1#>", "<#menu5_1_2#>", "<#menu5_1_3#>", "<#menu5_1_4#>", "<#menu5_1_5#>", "<#menu5_1_6#>");
 tabtitle[1] = new Array("", "<#menu5_1_1#>", "<#menu5_1_2#>", "<#menu5_1_3#>", "<#menu5_1_4#>", "<#menu5_1_5#>", "<#menu5_1_6#>");
 tabtitle[2] = new Array("", "<#menu5_2_1#>", "<#menu5_2_2#>", "<#menu5_2_3#>", "<#menu5_2_4#>", "<#menu5_2_5#>", "<#menu5_2_6#>");
@@ -385,9 +386,21 @@ tabtitle[8] = new Array("", "<#menu5_11#>", "<#menu5_12#>", "WAN", "", "", "", "
 tabtitle[9] = new Array("", "<#menu5_7_2#>", "<#menu5_7_3#>", "<#menu5_7_5#>", "<#menu5_7_6#>", "<#menu5_7_8#>");
 //加入扩展设置
 tabtitle[10] = new Array("", "<#menu5_4_6#>", "<#menu5_13_2#>", "<#menu5_13_4#>", "<#menu5_13_5#>", "<#menu5_13_6#>", "<#menu5_13_7#>", "<#menu5_13_8#>");
+if (found_app_scutclient()){
+	tabtitle[11] = new Array("", "<#menu5_1_1#>","<#menu5_13_log#>");
+}
+if (found_app_chinadns()){
+	tabtitle[12] = new Array("", "<#menu5_1_1#>");
+}
+if (found_app_dnsforwarder()){
+	tabtitle[13] = new Array("", "<#menu5_1_1#>");
+}
+if (found_app_shadowsocks()){
+	tabtitle[14] = new Array("", "<#menu5_1_1#>","<#menu5_16_20#>");
+}
 
 //Level 3 Tab title
-var tablink = new Array(10);
+
 tablink[0] = new Array("", "Advanced_Wireless2g_Content.asp", "Advanced_WGuest2g_Content.asp", "Advanced_WMode2g_Content.asp", "Advanced_ACL2g_Content.asp", "Advanced_WSecurity2g_Content.asp", "Advanced_WAdvanced2g_Content.asp");
 tablink[1] = new Array("", "Advanced_Wireless_Content.asp", "Advanced_WGuest_Content.asp", "Advanced_WMode_Content.asp", "Advanced_ACL_Content.asp", "Advanced_WSecurity_Content.asp", "Advanced_WAdvanced_Content.asp");
 tablink[2] = new Array("", "Advanced_LAN_Content.asp", "Advanced_DHCP_Content.asp", "Advanced_GWStaticRoute_Content.asp", "Advanced_IPTV_Content.asp", "Advanced_Switch_Content.asp", "Advanced_WOL_Content.asp");
@@ -403,6 +416,60 @@ tablink[10] = new Array("", "Advanced_xunlei.asp", "Advanced_adbyby.asp", "Advan
 //Level 2 Menu
 menuL2_title = new Array("", "<#menu5_11#>", "<#menu5_12#>", "<#menu5_2#>", "<#menu5_3#>", "<#menu5_5#>", "<#menu5_4#>", "<#menu5_6#>", "<#menu5_10#>", "<#menu5_9#>", "<#menu5_7#>", "<#menu5_13#>");
 menuL2_link  = new Array("", tablink[0][1], tablink[1][1], tablink[2][1], tablink[3][1], tablink[4][1], tablink[5][1], tablink[6][1], tablink[7][1], tablink[8][1], tablink[9][1], tablink[10][1]);
+
+if (found_app_scutclient()){
+	scutclient_array = new Array("", "scutclient.asp", "scutclient_log.asp");
+	tablink[11] = (scutclient_array);
+}
+if (found_app_chinadns()){
+	chinadns_array = new Array("", "Chinadns.asp");
+	tablink[12] = (chinadns_array);
+}
+if (found_app_dnsforwarder()){
+	dns_forwarder_array = new Array("", "dns-forwarder.asp");
+	tablink[13] = (dns_forwarder_array);
+}
+if (found_app_shadowsocks()){
+	shadowsocks_array = new Array("","Shadowsocks.asp","Shadowsocks_log.asp");
+	tablink[14] = (shadowsocks_array);
+}
+
+//Level 2 Menu
+menuL2_title = new Array(15)
+menuL2_title = new Array("", "<#menu5_11#>", "<#menu5_12#>", "<#menu5_2#>", "<#menu5_3#>", "<#menu5_5#>", "<#menu5_4#>", "<#menu5_6#>", "<#menu5_10#>", "<#menu5_9#>", "<#menu5_7#>");
+if (found_app_scutclient()){
+	menuL2_title.push("<#menu5_13#>");
+} else menuL2_title.push("");
+
+if (found_app_chinadns()){
+	menuL2_title.push("<#menu5_14#>");
+} else menuL2_title.push("");
+
+if (found_app_dnsforwarder()){
+	menuL2_title.push("<#menu5_15#>");
+} else menuL2_title.push("");
+
+if (found_app_shadowsocks()){
+	menuL2_title.push("<#menu5_16#>");
+} else menuL2_title.push("");
+
+
+menuL2_link  = new Array("", tablink[0][1], tablink[1][1], tablink[2][1], tablink[3][1], tablink[4][1], tablink[5][1], tablink[6][1], tablink[7][1], tablink[8][1], tablink[9][1]);
+if (found_app_scutclient()){
+	menuL2_link.push(scutclient_array[1]);
+} else menuL2_link.push("");
+
+if (found_app_chinadns()){
+	menuL2_link.push(chinadns_array[1]);
+} else menuL2_link.push("");
+
+if (found_app_dnsforwarder()){
+	menuL2_link.push(dns_forwarder_array[1]);
+} else menuL2_link.push("");
+
+if (found_app_shadowsocks()){
+	menuL2_link.push(shadowsocks_array[1]);
+} else menuL2_link.push("");
 
 //Level 1 Menu in Gateway, Router mode
 menuL1_title = new Array("", "<#menu1#>", "<#menu3#>", "<#menu2#>", "<#menu6#>", "<#menu4#>", "<#menu5_8#>", "<#menu5#>");

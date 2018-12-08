@@ -42,7 +42,12 @@
 #define BW_20			0
 #define BW_40			1
 #define BW_80			2
+#if defined (BOARD_K2P)
+#define BW_160			3
+#define BW_BOTH			7
+#else
 #define BW_BOTH			3
+#endif
 #define BW_10			4 // not used
 
 #define WDS_DISABLE_MODE	0
@@ -107,6 +112,10 @@ typedef struct _RT_802_11_MAC_ENTRY {
 	unsigned int	ConnectedTime;
 	MACHTTRANSMIT_SETTING	TxRate;
 	unsigned int	LastRxRate;
+#if defined (USE_MT7615_AP) && !defined (WITHOUT_KERNEL)
+	signed short	StreamSnr[3];
+	signed short	SoundingRespSnr[3];
+#endif
 } RT_802_11_MAC_ENTRY, *PRT_802_11_MAC_ENTRY;
 
 typedef struct _RT_802_11_MAC_TABLE {

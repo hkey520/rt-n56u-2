@@ -29,6 +29,7 @@
 #include "rc.h"
 #include "gpio_pins.h"
 #include "switch.h"
+#include <ralink_priv.h>
 
 extern struct nvram_pair router_defaults[];
 
@@ -113,6 +114,14 @@ nvram_restore_defaults(void)
 {
 	struct nvram_pair *np;
 	int restore_defaults;
+	char tmp[32] = {0};
+	unsigned char buffer[2] = {0};
+	char lan_mac[] = "FFFF";
+
+	int i_offset = get_wired_mac_e2p_offset(0) + 4;
+	if (flash_mtd_read(MTD_PART_NAME_FACTORY, i_offset, buffer, 2) == 0) {
+		sprintf(lan_mac, "%02X%02X", buffer[0] & 0xff, buffer[1] & 0xff);
+	}
 
 	/* Restore defaults if told to or OS has changed */
 	restore_defaults = !nvram_match("restore_defaults", "0");
@@ -172,6 +181,10 @@ load_wireless_modules(void)
 
 #if defined (USE_MT76X2_AP)
 	module_smart_load("mt76x2_ap", NULL);
+#endif
+
+#if defined (USE_MT7615_AP)
+	module_smart_load("mt_7615e", NULL);
 #endif
 
 #if defined (USE_RT3090_AP)
@@ -253,6 +266,17 @@ load_crypto_modules(void)
 	/* start cryptodev-linux */
 	module_smart_load("cryptodev", NULL);
 #endif
+}
+#endif
+
+#if defined (USE_IPSET)
+static void
+load_ipset_modules(void)
+{
+	module_smart_load("xt_set", NULL);
+	module_smart_load("ip_set_hash_ip", NULL);
+	module_smart_load("ip_set_hash_mac", NULL);
+	module_smart_load("ip_set_hash_net", NULL);
 }
 #endif
 
@@ -859,6 +883,24 @@ LED_CONTROL(int gpio_led, int flag)
 	}
 }
 
+int
+init_crontab(void)
+{
+	int ret = 0; //no change
+#if defined (APP_SCUT)
+	ret |= system("/sbin/check_crontab.sh a/1 a a a a scutclient_watchcat.sh");
+#endif
+#if defined (APP_SHADOWSOCKS)
+	ret |= system("/sbin/check_crontab.sh a/5 a a a a ss-watchcat.sh");
+	ret |= system("/sbin/check_crontab.sh 0 8 a/10 a a update_chnroute.sh");
+	ret |= system("/sbin/check_crontab.sh 0 7 a/10 a a update_gfwlist.sh");
+#endif
+#if defined (APP_DNSMASQ_CHINA_CONF)
+	ret |= system("/sbin/check_crontab.sh 0 9 a/10 a a update_dnsmasq_china_conf.sh");
+#endif
+	return ret;
+}
+
 void 
 init_router(void)
 {
@@ -902,6 +944,9 @@ init_router(void)
 #endif
 #if defined (USE_MTK_AES)
 	load_crypto_modules();
+#endif
+#if defined (USE_IPSET)
+	load_ipset_modules();
 #endif
 
 	recreate_passwd_unix(1);
@@ -950,7 +995,13 @@ init_router(void)
 	notify_leds_detect_link();
 
 	start_rwfs_optware();
-
+#if defined(APP_NAPT66)
+	start_napt66();
+#endif
+	if (init_crontab()) {
+		write_storage_to_mtd();
+		restart_crond();
+	}
 	// system ready
 	system("/etc/storage/started_script.sh &");
 }
@@ -1300,6 +1351,64 @@ handle_notifications(void)
 		else if (strcmp(entry->d_name, RCN_RESTART_SSHD) == 0)
 		{
 			restart_sshd();
+		}
+#endif
+#if defined(APP_SCUT)
+		else if (strcmp(entry->d_name, RCN_RESTART_SCUT) == 0)
+		{
+			restart_scutclient();
+		}
+		else if (strcmp(entry->d_name, "stop_scutclient") == 0)
+		{
+			stop_scutclient();
+		}
+#endif
+#if defined(APP_TTYD)
+		else if (strcmp(entry->d_name, RCN_RESTART_TTYD) == 0)
+		{
+			restart_ttyd();
+		}
+#endif
+#if defined(APP_SHADOWSOCKS)
+		else if (strcmp(entry->d_name, RCN_RESTART_SHADOWSOCKS) == 0)
+		{
+			restart_ss();
+		}
+		else if (strcmp(entry->d_name, RCN_RESTART_SS_TUNNEL) == 0)
+		{
+			restart_ss_tunnel();
+		}
+		else if (strcmp(entry->d_name, RCN_RESTART_CHNROUTE_UPD) == 0)
+		{
+			update_chnroute();
+		}
+		else if (strcmp(entry->d_name, RCN_RESTART_GFWLIST_UPD) == 0)
+		{
+			update_gfwlist();
+		}
+#endif
+#if defined(APP_VLMCSD)
+		else if (strcmp(entry->d_name, RCN_RESTART_VLMCSD) == 0)
+		{
+			restart_vlmcsd();
+		}
+#endif
+#if defined(APP_CHINADNS)
+		else if (strcmp(entry->d_name, RCN_RESTART_CHINADNS) == 0)
+		{
+			restart_chinadns();
+		}
+#endif
+#if defined(APP_DNSFORWARDER)
+		else if (strcmp(entry->d_name, RCN_RESTART_DNSFORWARDER) == 0)
+		{
+			restart_dnsforwarder();
+		}
+#endif
+#if defined(APP_DNSMASQ_CHINA_CONF)
+		else if (strcmp(entry->d_name, RCN_RESTART_DNSMASQ_CHINA_CONF_UPD) == 0)
+		{
+			update_dnsmasq_china_conf();
 		}
 #endif
 #if defined(APP_SMBD) || defined(APP_NMBD)
