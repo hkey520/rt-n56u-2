@@ -138,6 +138,7 @@ configure:
 		--with-static-modules=nss_info_template,idmap_nss,pdb_tdbsam \
 		--with-shared-modules=pdb_wbc_sam,auth_winbind,auth_wbc,auth_domain; \
 	)
+	sed "s/#define HAVE_UUID_UUID_H 1/#undef HAVE_UUID_UUID_H/g" ${SRC_NAME}/include/config.h -i
 
 clean:
 	if [ -f $(SRC_NAME)/Makefile ] ; then \

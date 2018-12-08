@@ -206,6 +206,7 @@ ifneq ($(CONFIG_FIRMWARE_INCLUDE_NGROK),y)
 	sed "s/ngrok.asp/Advanced_dnsq.asp/g" -i $(ROMFS_DIR)/www/state.js
 #	sed "s/, \"ngrok.asp\"//g" -i $(ROMFS_DIR)/www/state.js
 #	sed "s/, \"<#menu5_13_8#>\"//g" -i $(ROMFS_DIR)/www/state.js
+endif
 
 ifneq ($(CONFIG_FIRMWARE_INCLUDE_SCUTCLIENT),y)
 	rm -f $(INSTALLDIR)/www/scutclient.asp
