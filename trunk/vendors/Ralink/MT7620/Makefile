@@ -138,19 +138,24 @@ endif
 	  @wc -c $(RAMDISK)
 	# Padded Kernel Image + Compressed Rootfs Size
 	  @cat $(RAMDISK) >> $(KERNELZ).$(COMP)
-	  @wc -c $(KERNELZ).$(COMP)
+	@echo -n "MT7620: "
+	@wc -c $(KERNELZ).$(COMP)
 	# !!! Please make sure that Padded Kernel Image + Compressed Rootfs size
 ifeq ($(CONFIG_MTD_NAND_RALINK),y)
 	# can't bigger than 33554432 (32MiB) !!!
+	@SIZE=`wc -c $(KERNELZ).$(COMP) | awk '{ print $$1 }'` ; if [ $$SIZE -gt 33554432 ]; then echo firmware too big!!!; echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"; fi
 else
 ifneq ($(CONFIG_RT2880_FLASH_AUTO),y)
 ifeq ($(CONFIG_RT2880_FLASH_32M),y)
-	# can't bigger than 32964544 !!!
+	# can't bigger than 32964544 (32MiB) !!!
+	@SIZE=`wc -c $(KERNELZ).$(COMP) | awk '{ print $$1 }'` ; if [ $$SIZE -gt 32964544 ]; then echo firmware too big!!!; echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"; fi
 else
 ifeq ($(CONFIG_RT2880_FLASH_16M),y)
-	# can't bigger than 16187136 !!!
+	# can't bigger than 16187136 (16MiB) !!!
+	@SIZE=`wc -c $(KERNELZ).$(COMP) | awk '{ print $$1 }'` ; if [ $$SIZE -gt 16187136 ]; then echo firmware too big!!!; echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"; fi
 else
-	# can't bigger than 7995136 !!!
+	# can't bigger than 7995136 (8MiB) !!!
+	@SIZE=`wc -c $(KERNELZ).$(COMP) | awk '{ print $$1 }'` ; if [ $$SIZE -gt 7995136 ]; then echo firmware too big!!!; echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"; fi
 endif
 endif
 else
