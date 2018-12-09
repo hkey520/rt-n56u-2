@@ -1133,8 +1133,8 @@ void restart_aria(void)
 void restart_xunlei(void)
 {
 //	if (count_stor_mountpoint())
-//		eval("/usr/bin/xunlei.Sh");
-	doSystem("/usr/bin/xunlei.Sh");
+//		eval("/usr/bin/xunlei.sh");
+	doSystem("/usr/bin/xunlei.sh");
 }
 
 void restart_koolproxy(void)

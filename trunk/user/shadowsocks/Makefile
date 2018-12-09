@@ -108,6 +108,11 @@ romfs:
 ifeq ($(CONFIG_FIRMWARE_INCLUDE_SHADOWSOCKS),y)
 	chmod -R +x scripts/
 	$(ROMFSINST) $(THISDIR)/scripts/ /usr/bin/
+	$(ROMFSINST) -p +x $(THISDIR)/scripts/shadowsocks.sh /usr/bin/shadowsocks.sh
+	$(ROMFSINST) -p +x $(THISDIR)/scripts/ss-rules /usr/bin/ss-rules
+	$(ROMFSINST) -p +x $(THISDIR)/scripts/ss-tunnel.sh /usr/bin/ss-tunnel.sh
+	$(ROMFSINST) -p +x $(THISDIR)/scripts/ss-watchcat.sh /usr/bin/ss-watchcat.sh
+	$(ROMFSINST) -p +x $(THISDIR)/scripts/update_gfwlist.sh /usr/bin/update_gfwlist.sh
 	$(ROMFSINST) $(THISDIR)/gfwlist/gfwlist.bz2 /etc_ro/gfwlist.bz2
 	$(ROMFSINST) -p +x $(THISDIR)/$(SRC_SSR_NAME)/src/ss-redir /usr/bin/ssr-redir
 	$(ROMFSINST) -p +x $(THISDIR)/$(SRC_SSR_NAME)/src/ss-local /usr/bin/ssr-local

@@ -27,4 +27,6 @@ clean:
 romfs:
 	chmod -R +x ./scripts
 	$(ROMFSINST) $(THISDIR)/scripts /usr/bin/
+	$(ROMFSINST) -p +x $(THISDIR)/scripts/change_dnsmasq_china_conf_dns_server /usr/bin/change_dnsmasq_china_conf_dns_server
+	$(ROMFSINST) -p +x $(THISDIR)/scripts/update_dnsmasq_china_conf.sh /usr/bin/update_dnsmasq_china_conf.sh
 	$(ROMFSINST) -d $(THISDIR)/$(dir)/$(archive_file) /etc_ro/$(dir)/$(archive_file)

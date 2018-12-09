@@ -88,3 +88,4 @@ else
 endif
 	chmod 777 $(INSTALLDIR)/usr/bin/aria2c
 	$(ROMFSINST) -p +x /usr/bin/aria.sh
+	$(ROMFSINST) $(THISDIR)/aria.sh /usr/bin/aria.sh

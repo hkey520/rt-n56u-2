@@ -79,6 +79,7 @@ ln -sf /etc_ro/profile /etc/profile
 ln -sf /etc_ro/e2fsck.conf /etc/e2fsck.conf
 ln -sf /etc_ro/ipkg.conf /etc/ipkg.conf
 ln -sf /etc_ro/ld.so.conf /etc/ld.so.conf
+ln -sf /etc_ro/banner /etc/issue
 
 # tune linux kernel
 echo 65536        > /proc/sys/fs/file-max
@@ -97,3 +98,4 @@ fi
 if [ -x /etc/storage/start_script.sh ] ; then
 	/etc/storage/start_script.sh
 fi
+cat /etc_ro/banner

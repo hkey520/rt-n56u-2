@@ -3,25 +3,26 @@
 xunleienable=`nvram get xunlei_enable`
 patch=`ls -l /media/ | awk '/^d/ {print $NF}' | sed -n '1p'`
 if [ -z $patch ]; then
-logger -t "远程迅雷下载" "未检测到挂载硬盘,程序退出。" 
-nvram set xunlei_enable="0"
-exit 0
+	logger -t "远程迅雷下载" "未检测到挂载硬盘,程序退出。" 
+	nvram set xunlei_enable="0"
+	exit 0
 else
-xunleidir="/media/$patch"
-nvram set xunlei_dir="$xunleidir"
+	xunleidir="/media/$patch"
+	nvram set xunlei_dir="$xunleidir"
+	logger -t "远程迅雷下载目录：$xunleidir"
 fi
 
 if [ "$xunleienable" != 1 -a -n "`pidof ETMDaemon`" ]; then
- killall ETMDaemon EmbedThunderManager
-sed -i '/xunlei/d' /etc/storage/post_wan_script.sh 
- logger -t "远程迅雷下载" "已关闭。" 
- nvram set xunlei_enable="0"
- exit 0
+	killall ETMDaemon EmbedThunderManager
+	sed -i '/xunlei/d' /etc/storage/post_wan_script.sh 
+	logger -t "远程迅雷下载" "已关闭。" 
+	nvram set xunlei_enable="0"
+	exit 0
 fi
 
 if [ "$xunleienable" != 1 ]; then
-logger -t "远程迅雷下载" "未开启" 
-exit 0
+	logger -t "远程迅雷下载" "未开启" 
+	exit 0
 fi
 
 if [ ! -f "$xunleidir/xunlei/portal" ]; then

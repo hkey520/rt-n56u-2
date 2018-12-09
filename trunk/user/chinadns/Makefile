@@ -23,4 +23,5 @@ clean:
 romfs:
 	chmod -R +x ./scripts
 	$(ROMFSINST) $(THISDIR)/scripts /usr/bin/
+	$(ROMFSINST) -p +x $(THISDIR)/scripts/chinadns.sh /usr/bin/chinadns.sh
 	$(ROMFSINST) -p +x $(THISDIR)/$(SRC_NAME)/build/chinadns /usr/bin/chinadns

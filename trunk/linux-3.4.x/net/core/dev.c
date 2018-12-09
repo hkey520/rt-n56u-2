@@ -2249,7 +2249,7 @@ int dev_hard_start_xmit(struct sk_buff *skb, struct net_device *dev,
 		if (!list_empty(&ptype_all))
 #endif
 			dev_queue_xmit_nit(skb, dev);
-#ifdef CONFIG_SHORTCUT_FE
+#if defined(CONFIG_SHORTCUT_FE) && !defined(CONFIG_IMQ) && !defined(CONFIG_IMQ_MODULE)
 		}
 #endif
 		features = netif_skb_features(skb);

@@ -107,6 +107,7 @@ AuthorizedKeysFile	.ssh/authorized_keys
 
 # no default banner path
 #Banner none
+# Banner /etc_ro/banner
 
 # override default of no subsystems
 Subsystem	sftp	/usr/libexec/sftp-server

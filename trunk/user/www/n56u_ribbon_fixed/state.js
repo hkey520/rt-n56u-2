@@ -372,8 +372,8 @@ function show_banner(L3){
 	show_top_status();
 }
 
-var tabtitle = new Array(15);
-var tablink = new Array(15);
+var tabtitle = new Array(16);
+var tablink = new Array(16);
 tabtitle[0] = new Array("", "<#menu5_1_1#>", "<#menu5_1_2#>", "<#menu5_1_3#>", "<#menu5_1_4#>", "<#menu5_1_5#>", "<#menu5_1_6#>");
 tabtitle[1] = new Array("", "<#menu5_1_1#>", "<#menu5_1_2#>", "<#menu5_1_3#>", "<#menu5_1_4#>", "<#menu5_1_5#>", "<#menu5_1_6#>");
 tabtitle[2] = new Array("", "<#menu5_2_1#>", "<#menu5_2_2#>", "<#menu5_2_3#>", "<#menu5_2_4#>", "<#menu5_2_5#>", "<#menu5_2_6#>");
@@ -384,7 +384,7 @@ tabtitle[6] = new Array("", "<#menu5_6_2#>", "<#menu5_6_5#>", "<#menu5_6_1#>", "
 tabtitle[7] = new Array("", "<#menu5_10_1#>", "<#menu5_10_2#>", "<#menu5_10_3#>");
 tabtitle[8] = new Array("", "<#menu5_11#>", "<#menu5_12#>", "WAN", "", "", "", "", "", "", "");
 tabtitle[9] = new Array("", "<#menu5_7_2#>", "<#menu5_7_3#>", "<#menu5_7_5#>", "<#menu5_7_6#>", "<#menu5_7_8#>");
-//加入扩展设置
+// 加入扩展设置
 tabtitle[10] = new Array("", "<#menu5_4_6#>", "<#menu5_13_2#>", "<#menu5_13_4#>", "<#menu5_13_5#>", "<#menu5_13_6#>", "<#menu5_13_7#>", "<#menu5_13_8#>");
 if (found_app_scutclient()){
 	tabtitle[11] = new Array("", "<#menu5_1_1#>","<#menu5_13_log#>");
@@ -414,6 +414,7 @@ tablink[9] = new Array("", "Main_LogStatus_Content.asp", "Main_DHCPStatus_Conten
 //扩展设置菜单
 tablink[10] = new Array("", "Advanced_xunlei.asp", "Advanced_adbyby.asp", "Advanced_kms.asp", "Advanced_dnsq.asp", "aria.asp", "trmd.asp", "ngrok.asp");
 //Level 2 Menu
+menuL2_title = new Array(16)
 menuL2_title = new Array("", "<#menu5_11#>", "<#menu5_12#>", "<#menu5_2#>", "<#menu5_3#>", "<#menu5_5#>", "<#menu5_4#>", "<#menu5_6#>", "<#menu5_10#>", "<#menu5_9#>", "<#menu5_7#>", "<#menu5_13#>");
 menuL2_link  = new Array("", tablink[0][1], tablink[1][1], tablink[2][1], tablink[3][1], tablink[4][1], tablink[5][1], tablink[6][1], tablink[7][1], tablink[8][1], tablink[9][1], tablink[10][1]);
 
@@ -435,8 +436,8 @@ if (found_app_shadowsocks()){
 }
 
 //Level 2 Menu
-menuL2_title = new Array(15)
-menuL2_title = new Array("", "<#menu5_11#>", "<#menu5_12#>", "<#menu5_2#>", "<#menu5_3#>", "<#menu5_5#>", "<#menu5_4#>", "<#menu5_6#>", "<#menu5_10#>", "<#menu5_9#>", "<#menu5_7#>");
+// menuL2_title = new Array(15)
+// menuL2_title = new Array("", "<#menu5_11#>", "<#menu5_12#>", "<#menu5_2#>", "<#menu5_3#>", "<#menu5_5#>", "<#menu5_4#>", "<#menu5_6#>", "<#menu5_10#>", "<#menu5_9#>", "<#menu5_7#>");
 if (found_app_scutclient()){
 	menuL2_title.push("<#menu5_13#>");
 } else menuL2_title.push("");
@@ -454,7 +455,7 @@ if (found_app_shadowsocks()){
 } else menuL2_title.push("");
 
 
-menuL2_link  = new Array("", tablink[0][1], tablink[1][1], tablink[2][1], tablink[3][1], tablink[4][1], tablink[5][1], tablink[6][1], tablink[7][1], tablink[8][1], tablink[9][1]);
+// menuL2_link  = new Array("", tablink[0][1], tablink[1][1], tablink[2][1], tablink[3][1], tablink[4][1], tablink[5][1], tablink[6][1], tablink[7][1], tablink[8][1], tablink[9][1]);
 if (found_app_scutclient()){
 	menuL2_link.push(scutclient_array[1]);
 } else menuL2_link.push("");
@@ -656,6 +657,7 @@ function show_footer(){
 	footer_code +='<div align="center">\n';
 	footer_code +='  <span>Highcharts by Torstein Hønsi & <a href="http://www.highcharts.com">Highsoft</a></span></br>\n';
 	footer_code +='  <span>Big icons designed by <a href="http://www.freepik.com">Freepik</a></br></span>\n';
+	footer_code +='  <span>Asus App Support by <a href="http://www.right.com.cn/forum/thread-220497-1-1.html">Huang YingNing</a></br></span>\n';
 	footer_code +='  <span>Non-Commercial Use Only</span></br>\n';
 	footer_code +='</div>\n';
 

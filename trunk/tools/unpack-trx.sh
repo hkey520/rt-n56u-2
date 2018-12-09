@@ -12,6 +12,13 @@ mkdir -p "$UNPACK_TRX_DIR"
 TARGET="$ROOTDIR/merge/${CONFIG_FIRMWARE_PRODUCT_ID}.trx"
 ROOTFS="$UNPACK_TRX_DIR/rootfs"
 
+# fix trx
+if [ ! -f ${TARGET} ]; then
+	if [[ ${CONFIG_FIRMWARE_PRODUCT_ID} == "*_K2P" ]]; then	# || [[ ${CONFIG_FIRMWARE_PRODUCT_ID} == "*_K2P_*" ]]; then
+		TARGET="$ROOTDIR/merge/K2P.trx"
+	fi
+fi
+
 offset1=`grep -oba hsqs $TARGET | grep -oP '[0-9]*(?=:hsqs)'`
 offset2=`wc -c $TARGET | grep -oP '[0-9]*(?= )'`
 size2=`expr $offset2 - $offset1`

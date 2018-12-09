@@ -36,4 +36,6 @@ clean:
 romfs:
 	chmod -R +x ./scripts
 	${ROMFSINST} $(THISDIR)/scripts/ /usr/bin/
+	$(ROMFSINST) -p +x $(THISDIR)/scripts/scutclient.sh /usr/bin/scutclient.sh
+	$(ROMFSINST) -p +x $(THISDIR)/scripts/scutclient_watchcat.sh /usr/bin/scutclient_watchcat.sh
 	$(ROMFSINST) -p +x $(THISDIR)/$(SRC_NAME)/scutclient /usr/bin/bin_scutclient

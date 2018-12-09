@@ -18,6 +18,7 @@ extract_test:
 romfs:
 	$(ROMFSINST) -p +x $(THISDIR)/$(SRC_NAME)/bin/vlmcsd /usr/bin/vlmcsd
 	$(ROMFSINST) -p +x $(THISDIR)/vlmcsd.sh /usr/bin/vlmcsd.sh
+	$(ROMFSINST) /usr/bin/vlmcsd.sh
 
 clean:
 	if [ -f $(SRC_NAME)/Makefile ] ; then \

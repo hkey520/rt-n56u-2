@@ -1,3 +1,4 @@
+THISDIR = $(shell pwd)
 
 all:
 

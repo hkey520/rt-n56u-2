@@ -4,6 +4,9 @@ MKSQSHFS4=`dirname $0`'/mksquashfs'
 PADJFFS2=`dirname $0`'/padjffs2'
 UNSQSHFS=`dirname $0`'/unsquashfs'
 # echo MKSQSHFS4=${MKSQSHFS4}
+if [ -d ./rootfs ]; then
+	rm -rf ./rootfs
+fi
 case "$1" in
 'extract'|'e')
 offset1=`grep -oba hsqs $2 | grep -oP '[0-9]*(?=:hsqs)'`

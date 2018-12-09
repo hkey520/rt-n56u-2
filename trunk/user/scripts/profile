@@ -1,5 +1,6 @@
 # /etc/profile
 
+cat /etc_ro/banner
 # If running interactively, then
 if [ "$PS1" ] ; then
 

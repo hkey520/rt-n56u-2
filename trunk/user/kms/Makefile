@@ -1,3 +1,4 @@
+SDIR = $(shell pwd)
 
 all:
 

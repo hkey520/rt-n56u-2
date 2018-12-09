@@ -251,7 +251,7 @@ cp -rf "$dir_ppe_src/hw_nat" "$dir_ppe_dst/"
 dir_eip_src="$ROOTDIR/proprietary/rt_eip"
 dir_eip_dst="$ROOTDIR/$CONFIG_LINUXDIR/drivers/net"
 if [ "$CONFIG_PRODUCT" = "MT7621" ] ; then
-	if [! -d "$dir_eip_src" ] ; then
+	if [ ! -d "$dir_eip_src" ] ; then
 #		rm -rf "$dir_eip_dst/rt_eip"
 		cp -rf "$dir_eip_src" "$dir_eip_dst/"
 	fi
