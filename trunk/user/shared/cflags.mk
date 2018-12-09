@@ -215,6 +215,11 @@ endif
 ifeq ($(CONFIG_FIRMWARE_INCLUDE_KMS),y)
          CFLAGS += -DAPP_KMS
 endif
+
+ifeq ($(CONFIG_FIRMWARE_INCLUDE_ALIDDNS),y)
+         CFLAGS += -DAPP_ALIDDNS
+endif
+
 ifeq ($(CONFIG_FIRMWARE_INCLUDE_SCUTCLIENT),y)
 CFLAGS += -DAPP_SCUT
 endif

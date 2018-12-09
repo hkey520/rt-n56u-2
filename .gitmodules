@@ -10,3 +10,6 @@
 [submodule "XZB-Profile"]
 	path = XZB-Profile
 	url = https://github.com/neophack/XZB.git
+[submodule "trunk/user/aliddns/koolshare-aliddns"]
+	path = trunk/user/aliddns/koolshare-aliddns
+	url = https://github.com/kyriosli/koolshare-aliddns.git

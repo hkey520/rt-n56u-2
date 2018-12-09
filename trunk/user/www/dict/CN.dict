@@ -1685,6 +1685,7 @@ menu5_13_5=墙里墙外
 menu5_13_6=Aria2
 menu5_13_7=Transmission
 menu5_13_8=Ngrok内网穿透
+menu5_13_9=Aliddns
 menu5_13_authip=认证IP:
 menu5_13_debug=启用Debug模式
 menu5_13_enable=启用华南理工大学客户端
