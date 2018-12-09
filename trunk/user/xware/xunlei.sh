@@ -1,5 +1,12 @@
 #!/bin/sh
 
+logger()
+{
+	title=$2
+	msg=$3
+	echo "${title}:${msg}"
+}
+
 xunleienable=`nvram get xunlei_enable`
 patch=`ls -l /media/ | awk '/^d/ {print $NF}' | sed -n '1p'`
 if [ -z $patch ]; then
