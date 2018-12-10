@@ -669,7 +669,7 @@ FW_item2=Firmware-Version:
 FW_item3=Bootloader-Version:
 FW_item4=Hardwareversion:
 FW_item5=Neue Firmware-Datei:
-FW_note=Hinweis:
+FW_note=Hinweis: Telegram：<a href="https://t.me/padavan_app" target="blank">https://t.me/padavan_app</a>
 FW_n1=Einstellungen von Konfigurationsparametern, die sowohl in der alten als auch in der neuen Firmware vorhanden sind, bleiben bei der Aktualisierung erhalten.
 FW_n2=Falls die Aktualisierung fehlschlagen sollte, wechselt der ZVMODELVZ automatisch in den Notfallmodus. Eine solche Situation wird von den LEDs an der Vorderseite des ZVMODELVZ angezeigt. Stellen Sie das System mit Hilfe des Firmware-Wiederherstellungsp
 FIRM_ok_title=Firmware erfolgreich aktualisiert.

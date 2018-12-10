@@ -670,7 +670,7 @@ FW_item2=Fast programvaruversion:
 FW_item3=Bootloader-version:
 FW_item4=Hårdvaruversion:
 FW_item5=Ny fast programvarufil:
-FW_note=Obs:
+FW_note=Obs: Telegram：<a href="https://t.me/padavan_app" target="blank">https://t.me/padavan_app</a>
 FW_n1=Konfigurationsparametrar som finns i både den gamla och den nya fasta programvaran kommer att behållas vid uppgraderingsprocessen.
 FW_n2=Om uppgraderingen misslyckas försätts ZVMODELVZ  automatiskt i nödläge. Lysdioderna på framsidan av ZVMODELVZ indikerar denna situation. Använd hjälpverktyget för återställning av den fasta programvaran på CD-skivan för att återställa systemet.
 FIRM_ok_title=Den fasta programvaran uppdaterades.

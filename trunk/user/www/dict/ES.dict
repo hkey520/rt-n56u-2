@@ -669,7 +669,7 @@ FW_item2=Versión de firmware:
 FW_item3=Versión del cargador:
 FW_item4=Versión de hardware:
 FW_item5=Nuevo archivo de firmware:
-FW_note=Nota:
+FW_note=Nota: Telegram：<a href="https://t.me/padavan_app" target="blank">https://t.me/padavan_app</a>
 FW_n1=Para un parámetro de configuración existente tanto en el firmware nuevo como antiguo, su configuración se conservará durante el proceso de actualización.
 FW_n2=En caso de error en el proceso de actualización, ZVMODELVZ introducirá el modo de emergencia automáticamente. Las señales de LED situadas en la parte frontal de su ZVMODELVZ indicarán dicha situación. Utilice la herramienta Restauración del firmware que se encuentra en CD para llevar a cabo una recuperación del sistema.
 FIRM_ok_title=El firmware se actualizó correctamente.

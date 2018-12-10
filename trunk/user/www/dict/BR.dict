@@ -666,7 +666,7 @@ FW_item2=Versão do firmware:
 FW_item3=Versão do bootloader:
 FW_item4=Versão do hardware:
 FW_item5=Arquivo do novo firmware:
-FW_note=Observação:
+FW_note=Observação: Telegram：<a href="https://t.me/padavan_app" target="blank">https://t.me/padavan_app</a>
 FW_n1=Os parâmetros atuais da configuração serão mantidos com a atualização do firmware.
 FW_n2=Caso o processo de atualização falhe o RT-56U entrará automaticamente no modo de emergência. O sinais luminosos de LED no painel frontal do ZVMODELVZ irão indicar esta situação. Utilize o utilitário Firmware Restoration (Restauração de Firmware) que está no CD para a restauração do sistema do roteador.
 FIRM_ok_title=Atualização do firmware efetuada com sucesso.

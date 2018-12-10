@@ -7,21 +7,39 @@ logger()
 	echo "${title}:${msg}"
 }
 
+rand_sleep()
+{
+	min=$1
+	max=$2
+	max=$((${max} - ${min} + 1))
+	num=$(date +%s)
+	num=$((${num} % ${max} + ${min}))
+	logger -t "等待" "${num}秒"
+	sleep ${num}
+}
+
+echo "xunlei : $$"
+# ps | grep -F 'xunlei.sh' | grep -v -F grep 
+if ps | grep -F '{xunlei.sh}' | grep -v $$ | grep -v -F grep -q ; then 
+	rand_sleep 1 5
+fi
+# ps | grep -F '{xunlei.sh}' | grep -v $$ | grep -v -F grep | awk '{print $1}' | xargs kill -9 > /dev/null 2>&1
 xunleienable=`nvram get xunlei_enable`
 patch=`ls -l /media/ | awk '/^d/ {print $NF}' | sed -n '1p'`
 if [ -z $patch ]; then
-	sleep 2
+	sleep 7
 	patch=`ls -l /media/ | awk '/^d/ {print $NF}' | sed -n '1p'`
 	if [ -z $patch ]; then
 		logger -t "远程迅雷下载" "未检测到挂载硬盘,程序退出。" 
 #		nvram set xunlei_enable="0"
-		exit 0
+#		exit 0
 	fi
-else
-	xunleidir="/media/$patch"
-	nvram set xunlei_dir="$xunleidir"
-	logger -t "远程迅雷下载目录：$xunleidir"
+	/usr/bin/xunlei.sh &
+	exit 0;
 fi
+xunleidir="/media/$patch"
+nvram set xunlei_dir="$xunleidir"
+logger -t "远程迅雷下载目录：$xunleidir"
 
 if [ "$xunleienable" != 1 -a -n "`pidof ETMDaemon`" ]; then
 	killall ETMDaemon EmbedThunderManager
@@ -52,6 +70,10 @@ export LD_LIBRARY_PATH="$xunleidir/xunlei/lib:/lib:/opt/lib:/usr/share/bkye:/usr
 while [ -z "$codeline" ]
 do
 	logger -t "远程迅雷下载" "启动中..."
+	if [ ! -f $xunleidir/xunlei/portal ]; then
+		logger -t "远程迅雷下载" "$xunleidir/xunlei/portal不存在！"
+		exit 0;
+	fi
 	$xunleidir/xunlei/portal > /tmp/xunlei.conf
 	codeline=`grep "THE ACTIVE CODE IS" /tmp/xunlei.conf`
 	if [ -z "$codeline" ]; then
@@ -59,7 +81,11 @@ do
 		if [ -z "$codeline" ]; then
 			logger -t "远程迅雷下载" "启动失败，正在重试中，请检查！"
 			killall ETMDaemon EmbedThunderManager
-			sleep 5
+			rand_sleep 1 7
+			if ps | grep -F '[ETMDaemon]' | grep -v grep | grep -F Z -q ; then
+				logger -t "远程迅雷下载" "存在ETMDaemon 僵尸进程，终止启动！"
+				exit 0
+			fi
 		fi
 	fi
 done

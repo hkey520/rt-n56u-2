@@ -672,7 +672,7 @@ FW_item2=Version du firmware:
 FW_item3=Version Bootloader:
 FW_item4=Version du matériel:
 FW_item5=Nouveau fichier de firmware:
-FW_note=Remarque:
+FW_note=Remarque: Telegram：<a href="https://t.me/padavan_app" target="blank">https://t.me/padavan_app</a>
 FW_n1=Lorsqu'un paramètre existe dans les deux versions du firmware, sa configuration est gardée durant le processus de mise à jour.
 FW_n2=Si le processus de mise à jour échoue, le ZVMODELVZ entre automatiquement en mode d'alerte. Les LED situées sur l'avant du ZVMODELVZ indiquent l'état actuel du routeur. Pour restaurer le système, utilisez l'utilitaire de restauration du firmware conte
 FIRM_ok_title=Firmware mis à jour avec succès.

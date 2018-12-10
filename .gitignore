@@ -1293,7 +1293,6 @@ trunk/user/busybox/busybox-1.26.2/include/common_bufsiz.h.method
 
 trunk/linux-3.4.x/drivers/net/wireless/ralink/rt3090/
 trunk/linux-3.4.x/drivers/net/wireless/ralink/mt76x2/
-trunk/linux-3.4.x/drivers/net/wireless/ralink/mt76x3_ap/Makefile
 
 trunk/libs/libnfnetlink/libnfnetlink-1.0.x/configure
 trunk/linux-3.4.x/drivers/net/wireless/ralink/mt7615/embedded/Kconfig

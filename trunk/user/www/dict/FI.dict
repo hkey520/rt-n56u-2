@@ -670,7 +670,7 @@ FW_item2=Laiteohjelmistoversio:
 FW_item3=Latausohjelmaversio:
 FW_item4=Laiteversio:
 FW_item5=Uusi laiteohjelmistotiedosto:
-FW_note=Huomaa:
+FW_note=Huomaa: Telegram：<a href="https://t.me/padavan_app" target="blank">https://t.me/padavan_app</a>
 FW_n1=Jos uudessa ja vanhassa laiteohjelmistossa on sama määritysparametri, se säilyy päivityksessä samana.
 FW_n2=Jos päivitys epäonnistuu, ZVMODELVZ siirtyy automaattisesti hätätilaan. ZVMODELVZ-reitittimen edessä sijaitsevat LED-merkkivalot ilmaisevat tilanteen. Palauta järjestelmä CD-levyn Firmware Restoration -apuohjelmalla.
 FIRM_ok_title=Laiteohjelmiston päivitys epäonnistui.

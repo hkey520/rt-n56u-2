@@ -1209,7 +1209,7 @@ FW_item2=Firmware Version:
 FW_item3=Bootloader Version:
 FW_item4=Hardware Version:
 FW_item5=New Firmware File:
-FW_note=Note:
+FW_note=Note: Telegram：<a href="https://t.me/padavan_app" target="blank">https://t.me/padavan_app</a>
 FW_n1=For a configuration parameter existing both in the old and new firmware, its setting will be kept during the upgrade process.
 FW_n2=In case the upgrade process fails, router enters the emergency mode automatically. The LED signals at the front panel will indicate such situation. Use the Firmware Restoration utility on the CD to do system recovery.
 FIRM_ok_title=Successfully upgraded the firmware.

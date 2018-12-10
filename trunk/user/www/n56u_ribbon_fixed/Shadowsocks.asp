@@ -42,7 +42,7 @@ $j(document).ready(function(){
 
 function initial(){
 	show_banner(2);
-	show_menu(5,14,1);
+	show_menu(5,15,1);
 	show_footer();
 	var o1 = document.form.ss_method;
 	var o2 = document.form.ss_mode;

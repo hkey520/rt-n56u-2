@@ -670,7 +670,7 @@ FW_item2=Firmwareversion:
 FW_item3=Bootloader-version:
 FW_item4=Hardware-version:
 FW_item5=Ny firmwarefil:
-FW_note=Bemærk:
+FW_note=Bemærk:Telegram：<a href="https://t.me/padavan_app" target="blank">https://t.me/padavan_app</a>
 FW_n1=Indstillingen af et konfigurationsparameter, der eksisterer både i den gamle og nye firmware, forbliver uforandret under opgraderingen.
 FW_n2=Hvis opgraderingen skulle mislykkes, går ZVMODELVZ'en automatisk i nødstilstand. En sådan situation vises med LED-lamperne forrest på ZVMODELVZ'en. Anvend hjælpeprogrammet Firmwaregendannelse, der findes på cd'en, for at foretage en systemgendannelse.
 FIRM_ok_title=Opgradering af firmwaren er fuldført.

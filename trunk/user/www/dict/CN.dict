@@ -395,7 +395,7 @@ FW_item4=硬件版本:
 FW_item5=固件文件:
 FW_n1=固件升级成功会保留已有的配置参数。
 FW_n2=如果升级失败，路由器会自动进入救援模式，可通过LED指示灯判断是否进入该模式。</br> 请使用 breed 进行系统恢复。
-FW_note=注:
+FW_note=注: Telegram：<a href="https://t.me/padavan_app" target="blank">https://t.me/padavan_app</a>
 File_Pop_content_alert_desc10=新密码在重启后或下次登录系统时生效。
 File_Pop_content_alert_desc1=用户名不能为空!
 File_Pop_content_alert_desc2=用户名不能少于2个字符!
@@ -1677,6 +1677,7 @@ menu5_10_3=网络检测
 menu5_11=无线 2.4GHz
 menu5_12=无线 5GHz
 menu5_13=扩展功能设置
+menu5_13_scutclient=scutclient
 menu5_13_1=Shadowsocks设置
 menu5_13_2=广告屏蔽
 menu5_13_3=koolproxy

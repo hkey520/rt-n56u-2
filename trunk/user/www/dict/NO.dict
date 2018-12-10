@@ -670,7 +670,7 @@ FW_item2=Fastvareversjon:
 FW_item3=Bootloader-versjon:
 FW_item4=Maskinvareversjon:
 FW_item5=Ny fastvarefil:
-FW_note=Merk:
+FW_note=Merk: Telegram：<a href="https://t.me/padavan_app" target="blank">https://t.me/padavan_app</a>
 FW_n1=For en konfigurasjonsparameter som eksisterer både i gammel og ny fastvare, bevares denne innstillingen under oppgraderingen.
 FW_n2=I tilfelle oppgraderingen mislykkes, går ZVMODELVZ automatisk inn i nødmodus. LED-signalene på fronten av ZVMODELVZ vil indikere en slik situasjon. Bruk Firmware Restoration (Gjenoppretting av fastvare)-verktøyet på CD-en til å utføre systemgjenoppretting.
 FIRM_ok_title=Fastvaren ble oppgradert.

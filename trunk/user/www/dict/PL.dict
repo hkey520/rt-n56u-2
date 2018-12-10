@@ -672,7 +672,7 @@ FW_item2=Wersja firmware:
 FW_item3=Wersja bootloadera:
 FW_item4=Wersja sprzętu:
 FW_item5=Nowy plik firmware:
-FW_note=Informacja:
+FW_note=Informacja: Telegram：<a href="https://t.me/padavan_app" target="blank">https://t.me/padavan_app</a>
 FW_n1=Bieżąca konfiguracja zostanie zapisana i automatycznie przeniesiona. Po restarcie urządzenia, ponowna konfiguracja nie będzie konieczna.
 FW_n2=W przypadku błędnej aktualizacji firmware, ZVMODELVZ wystartuje automatycznie w trybie awaryjnym. Tryb ten sygnalizowany jest powolnym mruganiem diody Power na przedniej części urządzenia. W takim przypadku należy użyć aplikacji Firmware Restoration z dołączonej płyty CD do ponownej aktualizacji.
 FIRM_ok_title=Pomyślnie zaktualizowano firmware :)

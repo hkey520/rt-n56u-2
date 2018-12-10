@@ -672,7 +672,7 @@ FW_item2=Verze firmwaru:
 FW_item3=Verze bootloaderu:
 FW_item4=Verze hardwaru:
 FW_item5=Nový soubor firmwaru:
-FW_note=Poznámka:
+FW_note=Poznámka:Telegram：<a href="https://t.me/padavan_app" target="blank">https://t.me/padavan_app</a>
 FW_n1=Konfigurační parametry existují jak ve staré, tak v nové verzi firmwaru. Současné nastavení bude během aktualizace zachováno.
 FW_n2=V případě neúspěšné aktualizace se ZVMODELVZ automaticky přepne do pohotovostního režimu. Kontrolka LED na ZVMODELVZ bude tuto situaci signalizovat. Použijte Utilitu pro obnovení firmwaru z CD pro obnovení systému.
 FIRM_ok_title=Úspěšná aktualizace firmwaru.
