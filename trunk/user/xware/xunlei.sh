@@ -10,9 +10,13 @@ logger()
 xunleienable=`nvram get xunlei_enable`
 patch=`ls -l /media/ | awk '/^d/ {print $NF}' | sed -n '1p'`
 if [ -z $patch ]; then
-	logger -t "远程迅雷下载" "未检测到挂载硬盘,程序退出。" 
-	nvram set xunlei_enable="0"
-	exit 0
+	sleep 2
+	patch=`ls -l /media/ | awk '/^d/ {print $NF}' | sed -n '1p'`
+	if [ -z $patch ]; then
+		logger -t "远程迅雷下载" "未检测到挂载硬盘,程序退出。" 
+#		nvram set xunlei_enable="0"
+		exit 0
+	fi
 else
 	xunleidir="/media/$patch"
 	nvram set xunlei_dir="$xunleidir"
@@ -54,6 +58,7 @@ do
 		codeline=`grep "THIS DEVICE HAS BOUND TO USER" /tmp/xunlei.conf`
 		if [ -z "$codeline" ]; then
 			logger -t "远程迅雷下载" "启动失败，正在重试中，请检查！"
+			killall ETMDaemon EmbedThunderManager
 			sleep 5
 		fi
 	fi
