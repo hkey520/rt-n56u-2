@@ -1,4 +1,6 @@
 #!/bin/sh
+# optimize by Huang YingNing 2018
+#
 
 logger()
 {
