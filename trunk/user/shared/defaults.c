@@ -581,7 +581,7 @@ struct nvram_pair router_defaults[] = {
 	{ "ss_key", "Secret" },
 	{ "ss_method", "rc4-md5" },
 	{ "ss_udp", "0" },
-	{ "ss_local_port", "1080" },
+	{ "ss_local_port", "1081" },
 	{ "ss_mtu", "1492" },
 	{ "ss_router_proxy", "1" },
 	{ "ss_lower_port_only", "1" },		//1:22-1023;2:53,80,443

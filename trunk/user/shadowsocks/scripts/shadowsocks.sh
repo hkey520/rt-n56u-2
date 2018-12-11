@@ -1,4 +1,6 @@
 #!/bin/sh
+# optimize by Huang YingNing <huangyingning at google mail system> 2018
+#
 
 ss_bin="ss-redir"
 ss_json_file="/tmp/ss-redir.json"
@@ -57,6 +59,25 @@ get_wan_bp_list(){
 	echo "$bp"
 }
 
+get_ip()
+{
+	IPADDR=$1
+	regex="\b(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[1-9])\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[1-9])\b"
+	ckStep2=`echo $1 | egrep $regex | wc -l`
+	if [ $ckStep2 -eq 0 ];
+	then
+#		echo "The string $IPADDR is not a correct ipaddr!!!"
+		ip=`ping -c 1 ${IPADDR} | grep '(' | cut -d '(' -f2|cut -d ')' -f1`
+		if [ -z "${ip}" ]; then
+			sleep 5
+			ip=`ping -c 1 ${IPADDR} | grep '(' | cut -d '(' -f2|cut -d ')' -f1`
+		fi
+		echo ${ip}
+	else
+		echo $1
+	fi
+}
+
 get_ipt_ext(){
 	if [ "$ss_lower_port_only" = "1" ]; then
 		echo '-e "--dport 22:1023"'
@@ -66,6 +87,8 @@ get_ipt_ext(){
 }
 
 func_start_ss_redir(){
+#	ipset create ss_spec_dst_sp hash:net hashsize 64
+#	ipset add ss_spec_dst_sp $(get_ip `nvram get ss_server`)
 	sh -c "$ss_bin -c $ss_json_file $(get_arg_udp) & "
 	return $?
 }

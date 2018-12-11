@@ -1,5 +1,5 @@
 #!/bin/sh
-# optimize by Huang YingNing 2018
+# optimize by Huang YingNing <huangyingning at google mail system> 2018
 #
 
 logger()

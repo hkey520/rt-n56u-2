@@ -5,6 +5,8 @@
 # This is free software, licensed under the GNU General Public License v3.
 # See /LICENSE for more information.
 #
+# fix by Huang YingNing <huangyingning at google mail system> 2018
+#
 
 modprobe xt_TPROXY
 modprobe xt_set
@@ -136,7 +138,27 @@ gen_lan_host_ipset_entry() {
 	done
 }
 
+get_ip()
+{
+	IPADDR=$1
+	regex="\b(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[1-9])\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[1-9])\b"
+	ckStep2=`echo $1 | egrep $regex | wc -l`
+	if [ $ckStep2 -eq 0 ];
+	then
+#		echo "The string $IPADDR is not a correct ipaddr!!!"
+		ip=`ping -c 1 ${IPADDR} | grep '(' | cut -d '(' -f2|cut -d ')' -f1`
+		if [ -z "${ip}" ]; then
+			sleep 5
+			ip=`ping -c 1 ${IPADDR} | grep '(' | cut -d '(' -f2|cut -d ')' -f1`
+		fi
+		echo ${ip}
+	else
+		echo $1
+	fi
+}
+
 gen_special_purpose_ip() {
+	ss_server_ip=$(get_ip `nvram get ss_server`)
 	cat <<-EOF | grep -E "^([0-9]{1,3}\.){3}[0-9]{1,3}"
 		0.0.0.0/8
 		10.0.0.0/8
@@ -159,6 +181,7 @@ gen_special_purpose_ip() {
 		255.255.255.255
 		$server
 		$SERVER
+		$ss_server_ip
 EOF
 }
 
