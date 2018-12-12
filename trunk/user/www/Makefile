@@ -165,6 +165,9 @@ ifneq ($(STORAGE_ENABLED),y)
 	rm -rf $(INSTALLDIR)/www/images/Tree
 endif
 	rm -f $(INSTALLDIR)/www/Advanced_Not_Support*.asp
+ifneq ($(CONFIG_FIRMWARE_INCLUDE_MINIDLNA),y)
+	rm -f $(INSTALLDIR)/www/Advanced_AiDisk_minidlna.asp
+endif
 ifneq ($(CONFIG_FIRMWARE_INCLUDE_XUNLEI),y)
 	rm -f $(INSTALLDIR)/www/Advanced_xunlei.asp
 #	sed "s/Advanced_xunlei.asp/Advanced_Not_Support.asp/g" -i $(ROMFS_DIR)/www/state.js

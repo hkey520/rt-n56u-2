@@ -20,7 +20,13 @@ rand_sleep()
 	sleep ${num}
 }
 
-echo "xunlei : $$"
+wait_time=$1
+if [ ! $wait_time = ~^[0-9] ]; then
+	echo "xunlei : $$ 等待${wait_time}秒"
+	sleep ${wait_time}
+else 
+	echo "xunlei : $$"
+fi
 # ps | grep -F 'xunlei.sh' | grep -v -F grep 
 if ps | grep -F '{xunlei.sh}' | grep -v $$ | grep -v -F grep -q ; then 
 	rand_sleep 1 5
@@ -36,7 +42,7 @@ if [ -z $patch ]; then
 #		nvram set xunlei_enable="0"
 #		exit 0
 	fi
-	/usr/bin/xunlei.sh &
+	/usr/bin/xunlei.sh 3 &
 	exit 0;
 fi
 xunleidir="/media/$patch"
@@ -66,6 +72,7 @@ if [ ! -x "$xunleidir/xunlei/portal" ]; then
 	chmod 777 "$xunleidir/xunlei/portal"
 fi
 
+count=0
 codeline=""
 OLD_LD_LIBRARY_PATH=${LD_LIBRARY_PATH}
 export LD_LIBRARY_PATH="$xunleidir/xunlei/lib:/lib:/opt/lib:/usr/share/bkye:/usr/share:${LD_LIBRARY_PATH}"
@@ -74,6 +81,7 @@ do
 	logger -t "远程迅雷下载" "启动中..."
 	if [ ! -f $xunleidir/xunlei/portal ]; then
 		logger -t "远程迅雷下载" "$xunleidir/xunlei/portal不存在！"
+		/usr/bin/xunlei.sh 10 &
 		exit 0;
 	fi
 	$xunleidir/xunlei/portal > /tmp/xunlei.conf
@@ -86,6 +94,13 @@ do
 			rand_sleep 1 7
 			if ps | grep -F '[ETMDaemon]' | grep -v grep | grep -F Z -q ; then
 				logger -t "远程迅雷下载" "存在ETMDaemon 僵尸进程，终止启动！"
+				/usr/bin/xunlei.sh 10 &
+				exit 0
+			fi
+			count=`expr $count + 1`
+			if [ $count -gt 19 ]; then
+				logger -t "远程迅雷下载" "启动${count}失败!"
+				/usr/bin/xunlei.sh 10 &
 				exit 0
 			fi
 		fi

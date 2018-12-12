@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title><#Web_Title#> - <#menu5_13_0#></title>
+<title><#Web_Title#> - <#menu5_4_6#></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="-1">
@@ -22,19 +22,9 @@
 <script type="text/javascript" src="/help.js"></script>
 <script>
 var $j = jQuery.noConflict();
-var xunleidir = "<% nvram_get_x("", "xunlei_dir"); %>"
 
 $j(document).ready(function() {
-	init_itoggle('xunlei_enable', change_xunlei_enabled);
-	var code = "";
-	for(var i = 0; i < usb_share_list.length; i++){
-		if(xunleidir == usb_share_list[i][1]){
-			code += '<option value="'+usb_share_list[i][1]+'" selected>'+usb_share_list[i][1]+'</option>';
-		}else{
-			code += '<option value="'+usb_share_list[i][1]+'" >'+usb_share_list[i][1]+'</option>';
-		}
-	}
-	$j("#st_xunlei_dir").append(code);
+	init_itoggle('enable_dlna', change_dlna_enabled);
 });
 
 </script>
@@ -48,40 +38,45 @@ var ddns_enable = '<% nvram_get_x("", "ddns_enable_x"); %>';
 var ddns_server = '<% nvram_get_x("", "ddns_server_x"); %>';
 var ddns_hostname = '<% nvram_get_x("", "ddns_hostname_x"); %>';
 
-var usb_share_list = [<% get_usb_share_list(); %>];
-
 function initial(){
 	show_banner(1);
-	show_menu(5,6,5);
+	show_menu(5,6,6);
 	show_footer();
 
-	if(found_app_xunlei()){
-		$("tbl_xunlei").style.display = "";
-		change_xunlei_enabled();
+	if(found_app_dlna()){
+		$("tbl_dlna").style.display = "";
+		change_dlna_enabled();
 	}
-	
-
 
 }
 
-function change_xunlei_enabled(){
-	var v = document.form.xunlei_enable[0].checked;
-	showhide_div('row_xunlei_dir', v);
-	showhide_div('row_xunlei_sn', v);
-	showhide_div('row_xunlei_admin', v);
-}
-
-function getsn(){
-	location.href = "Advanced_AiDisk_xunlei.asp";
+function change_dlna_enabled(){
+	var v = document.form.apps_dms[0].checked;
+//	showhide_div('row_dlna_wgrp', v);
+//	showhide_div('row_dlna_mode', v);
+//	showhide_div('row_dlna_lmb', v);
+//	showhide_div('row_dlna_fp', v);
 }
 
 function applyRule(){
-	showLoading();
+	if(validForm()){
+		showLoading();
 		
-	document.form.action_mode.value = " Apply ";
-	document.form.current_page.value = "/Advanced_AiDisk_xunlei.asp";
-	document.form.next_page.value = "";
-	document.form.submit();
+		document.form.action_mode.value = " Apply ";
+		document.form.current_page.value = "/Advanced_AiDisk_minidlna.asp";
+		document.form.next_page.value = "";
+		document.form.submit();
+	}
+}
+
+function validForm(){
+
+
+	String.prototype.Trim = function(){return this.replace(/(^\s*)|(\s*$)/g,"");}
+//	document.form.st_dlna_workgroup.value = document.form.st_dlna_workgroup.value.Trim();
+
+
+	return true;
 }
 
 </script>
@@ -111,7 +106,7 @@ function applyRule(){
 
     <form method="post" name="form" id="ruleForm" action="/start_apply.htm" target="hidden_frame">
 
-    <input type="hidden" name="current_page" value="Advanced_AiDisk_xunlei.asp">
+    <input type="hidden" name="current_page" value="Advanced_AiDisk_minidlna.asp">
     <input type="hidden" name="next_page" value="">
     <input type="hidden" name="next_host" value="">
     <input type="hidden" name="sid_list" value="Storage;">
@@ -139,62 +134,79 @@ function applyRule(){
                 <div class="row-fluid">
                     <div class="span12">
                         <div class="box well grad_colour_dark_blue">
-                            <h2 class="box_head round_top"><#menu5_4#> - <#menu5_13_0#></h2>
+                            <h2 class="box_head round_top"><#menu5_4#> - <#menu5_4_6#></h2>
                             <div class="round_bottom">
                                 <div class="row-fluid">
                                     <div id="tabMenu" class="submenuBlock"></div>
-                                    <div class="alert alert-info" style="margin: 10px;"><#USB_Application_xunlei#></div>
+                                    <div class="alert alert-info" style="margin: 10px;"><#USB_Application_dlna#></div>
 
-                                    <table id="tbl_xunlei" width="100%" cellpadding="4" cellspacing="0" class="table" style="display:none;">
+                                    <table id="tbl_dlna" width="100%" cellpadding="4" cellspacing="0" class="table" style="display:none;">
                                         <tr>
-                                            <th colspan="2" style="background-color: #E3E3E3;"><#Storagexunlei#></th>
+                                            <th colspan="2" style="background-color: #E3E3E3;"><#UPnPMediaServer#></th>
                                         </tr>
-										<tr>
+                                        <tr>
                                             <th width="50%">
-                                                <#Storagexunleienable#>
+                                                <#StorageEnableDLNA#>
                                             </th>
                                             <td>
                                                 <div class="main_itoggle">
-                                                    <div id="xunlei_enable_on_of">
-                                                        <input type="checkbox" id="xunlei_enable_fake" <% nvram_match_x("", "xunlei_enable", "1", "value=1 checked"); %><% nvram_match_x("", "xunlei_enable", "0", "value=0"); %>>
+                                                    <div id="enable_dlna_on_of">
+                                                        <input type="checkbox" id="enable_dlna_fake" <% nvram_match_x("", "apps_dms", "1", "value=1 checked"); %><% nvram_match_x("", "apps_dms", "0", "value=0"); %>>
                                                     </div>
                                                 </div>
 
                                                 <div style="position: absolute; margin-left: -10000px;">
-                                                    <input type="radio" name="xunlei_enable" id="xunlei_enable_1" value="1" onclick="change_xunlei_enabled();" <% nvram_match_x("", "xunlei_enable", "1", "checked"); %>/><#checkbox_Yes#>
-                                                    <input type="radio" name="xunlei_enable" id="xunlei_enable_0" value="0" onclick="change_xunlei_enabled();" <% nvram_match_x("", "xunlei_enable", "0", "checked"); %>/><#checkbox_No#>
+                                                    <input type="radio" name="apps_dms" id="enable_dlna_1" value="1" onclick="change_dlna_enabled();" <% nvram_match_x("", "apps_dms", "1", "checked"); %>/><#checkbox_Yes#>
+                                                    <input type="radio" name="apps_dms" id="enable_dlna_0" value="0" onclick="change_dlna_enabled();" <% nvram_match_x("", "apps_dms", "0", "checked"); %>/><#checkbox_No#>
                                                 </div>
                                             </td>
                                         </tr>
-                                        <tr id="row_xunlei_dir">
+<!--
+                                        <tr id="row_dlna_wgrp">
                                             <th>
-                                                <#Storagexunleidir#>
+                                                <a class="help_tooltip" href="javascript:void(0);" onmouseover="openTooltip(this,17, 3);"><#ShareNode_WorkGroup_itemname#></a>
                                             </th>
                                             <td>
-                                                <select id= "st_xunlei_dir" name="xunlei_dir" class="input">
-												
+                                                <input type="text" name="st_dlna_workgroup" class="input" maxlength="32" size="32" value="<% nvram_get_x("", "st_dlna_workgroup"); %>"/>
+                                            </td>
+                                        </tr>
+                                        <tr id="row_dlna_mode">
+                                            <th>
+                                                <#StorageShare#>
+                                            </th>
+                                            <td>
+                                                <select name="st_dlna_mode" class="input" style="width: 300px;">
+                                                    <option value="1" <% nvram_match_x("", "st_dlna_mode", "1", "selected"); %>><#StorageShare1#></option>
+                                                    <option value="3" <% nvram_match_x("", "st_dlna_mode", "3", "selected"); %>><#StorageShare5#></option>
+                                                    <option value="4" <% nvram_match_x("", "st_dlna_mode", "4", "selected"); %>><#StorageShare2#></option>
                                                 </select>
                                             </td>
                                         </tr>
-                                        <tr id="row_xunlei_sn">
+                                        <tr id="row_dlna_lmb">
                                             <th>
-                                                <#Storagexunleisn#>
+                                                <#StorageLMB#>
                                             </th>
                                             <td>
-                                                <input type="text" name="xunlei_sn" class="input" maxlength="32" size="32" value="<% nvram_get_x("", "xunlei_sn"); %>"/>&nbsp;
-												<input type="button" onClick="getsn();" value="<#CTL_refresh#>" class="btn btn-success">
+                                                <select name="st_dlna_lmb" class="input">
+                                                    <option value="0" <% nvram_match_x("", "st_dlna_lmb", "0", "selected"); %>><#checkbox_No#></option>
+                                                    <option value="1" <% nvram_match_x("", "st_dlna_lmb", "1", "selected"); %>>Local Master Browser (*)</option>
+                                                    <option value="2" <% nvram_match_x("", "st_dlna_lmb", "2", "selected"); %>>Local & Domain Master Browser</option>
+                                                </select>
                                             </td>
                                         </tr>
-                                        <tr id="row_xunlei_admin">
+                                        <tr id="row_dlna_fp">
                                             <th>
-                                                <#Storagexunleiadmin#>
+                                                <#StorageSMBFP#>
                                             </th>
                                             <td>
-                                                <a href="http://yuancheng.xunlei.com/" target="_blank">http://yuancheng.xunlei.com/</a>
+                                                <select name="st_dlna_fp" class="input">
+                                                    <option value="0" <% nvram_match_x("", "st_dlna_fp", "0", "selected"); %>><#checkbox_No#></option>
+                                                    <option value="1" <% nvram_match_x("", "st_dlna_fp", "1", "selected"); %>>TCP ports 445, 139 (*)</option>
+                                                </select>
                                             </td>
                                         </tr>
+-->
                                     </table>
-
 
                                     <table width="100%" cellpadding="4" cellspacing="0" class="table">
                                         <tr>

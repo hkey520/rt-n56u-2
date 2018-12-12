@@ -60,4 +60,5 @@ clean:
 
 romfs:
 	$(ROMFSINST) $(THISDIR)/$(SRC_NAME)/minidlnad /usr/bin/minidlnad
+#	$(ROMFSINST) $(THISDIR)/minidlna.conf /etc_ro/minidlna.conf
 

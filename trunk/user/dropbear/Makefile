@@ -1,3 +1,9 @@
+ifndef ROOTDIR
+ROOTDIR=../..
+endif
+
+ROMFS_DIR = $(ROOTDIR)/romfs
+
 SRC_NAME=dropbear-201X.XX
 
 ifeq ($(CONFIG_FIRMWARE_INCLUDE_SFTP),y)
@@ -56,3 +62,4 @@ romfs:
 	$(ROMFSINST) -s dropbearmulti /usr/bin/dropbearkey
 	$(ROMFSINST) -s dropbearmulti /usr/bin/dropbearconvert
 	$(ROMFSINST) -s /usr/bin/dropbearmulti /usr/sbin/dropbear
+	sed -i -e '/cat \/etc_ro\/banner/d' $(ROMFS_DIR)/etc_ro/profile

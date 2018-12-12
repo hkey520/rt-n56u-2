@@ -735,7 +735,7 @@ start_upnp(void)
 		"clean_ruleset_interval=%d\n"
 		"clean_ruleset_threshold=%d\n"
 		"uuid=75802409-bccb-40e7-8e6c-%02x%02x%02x%02x%02x%02x\n"
-		"friendly_name=%s\n"
+		"friendly_name=%s DLNA Server\n"
 		"manufacturer_name=%s\n"
 		"manufacturer_url=%s\n"
 		"model_name=%s\n"
