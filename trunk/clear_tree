@@ -23,3 +23,19 @@ rm -rfv $ROOTDIR/stage
 if [ -d $ROOTDIR/merge/$CONFIG_FIRMWARE_PRODUCT_ID ]; then 
 	sudo rm -rf $ROOTDIR/merge/$CONFIG_FIRMWARE_PRODUCT_ID
 fi
+
+rm -f tools/mkimage/.depend
+rm -f tools/xz/Doxyfile
+rm -f tools/xz/Makefile
+rm -f tools/xz/autom4te.cache/output.*
+rm -f tools/xz/autom4te.cache/requests
+rm -f tools/xz/autom4te.cache/traces.*
+rm -f tools/xz/config.h
+rm -f tools/xz/config.log
+rm -f tools/xz/config.status
+rm -f tools/xz/debug/.deps/*.Po
+rm -f tools/xz/debug/Makefile
+rm -f tools/xz/libtool
+rm -f tools/xz/stamp-h1
+rm -f tools/xz/tests/.deps/*.Po
+rm -f tools/xz/tests/Makefile

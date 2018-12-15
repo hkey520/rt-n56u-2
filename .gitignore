@@ -45,6 +45,7 @@ trunk/configs/boards/RT-N56U_K2_64M_32M/
 trunk/configs/boards/RT-N56U_K2_128M/
 trunk/configs/boards/RT-N56U_K2_256M/
 trunk/configs/boards/RT-N56U_K2_256M_32M/
+trunk/configs/boards/RT-N56U_K2P_MIX/
 trunk/configs/boards/RT-N56U_K2P/
 trunk/configs/boards/RT-N56U_K2P_512M/
 trunk/configs/boards/RT-N56U_K2P_DRV/
@@ -1691,6 +1692,7 @@ trunk/user/utils/qdma/qdma
 trunk/linux-3.4.x/drivers/net/wireless/ralink/mt76x3/
 
 trunk/libs/libiw/K2P/
+trunk/libs/libiw/RT-N56U_K2P_MIX/
 trunk/libs/libexif/libexif-0.6.21/
 trunk/libs/libiw/RT-N56U_K2P/
 trunk/libs/libogg/libogg-1.3.3/
