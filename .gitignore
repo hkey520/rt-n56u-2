@@ -47,11 +47,13 @@ trunk/configs/boards/RT-N56U_K2_256M/
 trunk/configs/boards/RT-N56U_K2_256M_32M/
 trunk/configs/boards/RT-N56U_K2P_MIX/
 trunk/configs/boards/RT-N56U_K2P/
+trunk/configs/boards/RT-N56U_K2P_16M/
 trunk/configs/boards/RT-N56U_K2P_512M/
 trunk/configs/boards/RT-N56U_K2P_DRV/
 trunk/configs/boards/RT-N56U_K2P_NANO/
 trunk/configs/boards/RT-N56U_L1/
 trunk/configs/boards/RT-N56U_MI-3/
+trunk/configs/boards/RT-N56U_MI-3_16M/
 trunk/configs/boards/RT-N56U_MI3/
 trunk/configs/boards/RT-N56U_MI-MINI/
 trunk/configs/boards/RT-N56U_MI-NANO/
